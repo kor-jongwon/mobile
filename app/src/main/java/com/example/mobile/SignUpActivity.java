@@ -5,38 +5,31 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SignUpActivity extends AppCompatActivity {
-
-    private FirebaseAuth auth;
-    private FirebaseFirestore firestore;
 
     private EditText usernameEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button signUpButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-        // FirebaseApp 초기화
-       // FirebaseApp.initializeApp(this);
-
-        auth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
 
         usernameEditText = findViewById(R.id.editTextUsername);
         emailEditText = findViewById(R.id.editTextEmail);
@@ -55,38 +48,44 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Firebase 회원가입
-                auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() { // 타입 매개변수 추가
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // 회원가입 성공 시 Firestore에 사용자 데이터 추가
-                                    Map<String, Object> user = new HashMap<>();
-                                    user.put("username", username);
-                                    user.put("email", email);
+                // 회원가입 정보를 JSON으로 만듭니다.
+                JSONObject jsonBody = new JSONObject();
+                try {
+                    jsonBody.put("username", username);
+                    jsonBody.put("email", email);
+                    jsonBody.put("password", password);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                                    firestore.collection("users")
-                                            .document(auth.getCurrentUser().getUid())
-                                            .set(user)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Toast.makeText(SignUpActivity.this, "회원가입 성공!", Toast.LENGTH_SHORT).show();
-                                                    finish();
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(SignUpActivity.this, "Firestore에 사용자 데이터를 추가하는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                } else {
-                                    Toast.makeText(SignUpActivity.this, "회원가입 실패: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                // REST API를 호출하여 회원가입 요청을 보냅니다.
+                OkHttpClient client = new OkHttpClient();
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody requestBody = RequestBody.create(JSON, jsonBody.toString());
+
+                Request request = new Request.Builder()
+                        .url("")
+                        .post(requestBody)
+                        .build();
+
+                try {
+                    Response response = client.newCall(request).execute();
+                    String responseBody = response.body().string();
+
+                    if (response.isSuccessful()) {
+                        // 회원가입 성공 처리
+                        Toast.makeText(SignUpActivity.this, "회원가입 성공!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        // 회원가입 실패 처리
+                        JSONObject errorJson = new JSONObject(responseBody);
+                        String errorMessage = errorJson.getString("error"); // 에러 메시지 필드 이름에 따라 변경
+                        Toast.makeText(SignUpActivity.this, "회원가입 실패: " + errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(SignUpActivity.this, "네트워크 오류 또는 서버 오류", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

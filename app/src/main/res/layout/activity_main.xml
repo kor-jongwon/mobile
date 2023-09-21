@@ -28,6 +28,36 @@
         android:inputType="textPassword"
         android:layout_marginBottom="16dp"/>
 
+    <!-- 버튼 그룹 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <!-- 아이디 저장 체크박스 -->
+    <CheckBox
+        android:id="@+id/checkBoxSaveId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이디 저장"  />
+
+    <!-- 아이디/비밀번호 찾기 버튼 -->
+    <Button
+        android:id="@+id/buttonFindCredentials"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="아이디/비밀번호 찾기"
+        android:clickable="true"
+        android:onClick="goToFindCredentials" />
+
+    </LinearLayout>
+
+
+    <!-- 버튼 그룹 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"/>
     <!-- 로그인 버튼 -->
     <Button
         android:id="@+id/buttonLogin"
@@ -41,11 +71,12 @@
         android:layout_height="wrap_content"
         android:text="회원가입"
         android:onClick="goToSignUp" />
+    >
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="회원가입"
-        android:onClick="goToSignUp" />
+
+
+
+
+
 
 </LinearLayout>

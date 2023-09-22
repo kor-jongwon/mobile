@@ -1,82 +1,34 @@
-<!-- res/layout/login_layout.xml -->
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".MainActivity">
 
-    <!-- 아이디 입력 -->
     <EditText
-        android:id="@+id/editTextId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="아이디"
-        android:inputType="text"
-        android:layout_marginBottom="16dp"/>
+        android:id="@+id/edit_email"
+        android:hint="email 입력" />
 
-    <!-- 비밀번호 입력 -->
     <EditText
-        android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="비밀번호"
+        android:id="@+id/edit_password"
         android:inputType="textPassword"
-        android:layout_marginBottom="16dp"/>
+        android:hint="password 입력" />
 
-    <!-- 버튼 그룹 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-    <!-- 아이디 저장 체크박스 -->
-    <CheckBox
-        android:id="@+id/checkBoxSaveId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="아이디 저장"  />
-
-    <!-- 아이디/비밀번호 찾기 버튼 -->
     <Button
-        android:id="@+id/buttonFindCredentials"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="아이디/비밀번호 찾기"
-        android:clickable="true"
-        android:onClick="goToFindCredentials" />
+        android:text="로그인"
+        android:id="@+id/btn_login" />
 
-    </LinearLayout>
-
-
-    <!-- 버튼 그룹 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"/>
-    <!-- 로그인 버튼 -->
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="로그인"/>
-
-    <!-- 회원가입 버튼 -->
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="회원가입"
-        android:onClick="goToSignUp" />
-    >
-
-
-
-
-
-
-
+        android:id="@+id/btn_register" /> <!-- 회원가입 버튼 추가 -->
 </LinearLayout>

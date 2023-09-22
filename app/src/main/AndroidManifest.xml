@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.mobile">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mobile"
         tools:targetApi="33">
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -24,16 +27,10 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
-        <activity android:name=".SignUpActivity"
-            android:exported="true">
-            <intent-filter>
-                <!-- SignUpActivity를 활동으로 사용하기 위한 인텐트 필터를 추가합니다. -->
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+        <activity
+            android:name=".RegisterActivity"
+            android:label="회원가입 화면" >
         </activity>
-
         <!-- 아래의 receiver 요소를 추가합니다. -->
         <receiver
             android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"

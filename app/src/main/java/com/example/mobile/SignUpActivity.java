@@ -123,19 +123,16 @@ public class SignUpActivity extends AppCompatActivity {
 */
 package com.example.mobile;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
-
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -171,15 +168,32 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 }
 
+                // AsyncTask 실행
+                new SignupTask().execute(username, email, password);
+            }
+        });
+    }
+
+    // AsyncTask 클래스 정의
+    private class SignupTask extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            String username = params[0];
+            String email = params[1];
+            String password = params[2];
+
+            // 네트워크 작업을 여기서 수행합니다.
+            return performSignup(username, email, password);
+        }
+
+        private Boolean performSignup(String username, String email, String password) {
+            try {
                 // 회원가입 정보를 JSON으로 만듭니다.
                 JSONObject jsonBody = new JSONObject();
-                try {
-                    jsonBody.put("username", username);
-                    jsonBody.put("email", email);
-                    jsonBody.put("password", password);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                jsonBody.put("username", username);
+                jsonBody.put("email", email);
+                jsonBody.put("password", password);
 
                 // REST API를 호출하여 회원가입 요청을 보냅니다.
                 OkHttpClient client = new OkHttpClient();
@@ -187,30 +201,52 @@ public class SignUpActivity extends AppCompatActivity {
                 RequestBody requestBody = RequestBody.create(JSON, jsonBody.toString());
 
                 Request request = new Request.Builder()
-                        .url("")
+                        .url("http://localhost:3000/api/signup") // 실제 API 엔드포인트 URL로 변경
                         .post(requestBody)
                         .build();
 
-                try {
-                    Response response = client.newCall(request).execute();
-                    String responseBody = response.body().string();
+                Response response = client.newCall(request).execute();
+                String responseBody = response.body().string();
 
-                    if (response.isSuccessful()) {
-                        // 회원가입 성공 처리
-                        Toast.makeText(SignUpActivity.this, "회원가입 성공!", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        // 회원가입 실패 처리
-                        JSONObject errorJson = new JSONObject(responseBody);
-                        String errorMessage = errorJson.getString("error"); // 에러 메시지 필드 이름에 따라 변경
-                        Toast.makeText(SignUpActivity.this, "회원가입 실패: " + errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(SignUpActivity.this, "네트워크 오류 또는 서버 오류", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful()) {
+                    // 회원가입 성공 처리
+                    return true;
+                } else {
+                    // 회원가입 실패 처리
+                    JSONObject errorJson = new JSONObject(responseBody);
+                    String errorMessage = errorJson.getString("error"); // 에러 메시지 필드 이름에 따라 변경
+                    showToast("회원가입 실패: " + errorMessage);
+                    return false;
                 }
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+                showToast("네트워크 오류 또는 서버 오류");
+                return false;
             }
-        });
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+
+            if (success) {
+                // 회원가입 성공 처리
+                showToast("회원가입 성공!");
+                finish();
+            } else {
+                // 회원가입 실패 처리
+                showToast("회원가입 실패");
+            }
+        }
+
+        private void showToast(String message) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
 

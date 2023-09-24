@@ -1,5 +1,5 @@
 package com.example.mobile;
-import static com.example.mobile.RegisterActivity.email;
+import static com.example.mobile.SignUpActivity.email;
 import android.content.ContentValues;
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Mobile"
         tools:targetApi="33">
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +28,19 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".SignUpActivity"
             android:label="회원가입 화면" >
+        </activity>
+        <activity
+            android:name=".FindIdActivity"
+            android:label="아아디 찾기" >
+        </activity>
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:label="비밀번호 찾기" >
+        </activity>
+        <activity android:name=".HomeActivity">
+            <!-- 필요한 인텐트 필터 또는 설정 추가 -->
         </activity>
         <!-- 아래의 receiver 요소를 추가합니다. -->
         <receiver

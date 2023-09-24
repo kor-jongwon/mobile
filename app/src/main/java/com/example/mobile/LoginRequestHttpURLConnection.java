@@ -9,8 +9,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
-import static com.example.mobile.MainActivity.email;
-import static com.example.mobile.MainActivity.password;
+import static com.example.mobile.LoginActivity.email;
+import static com.example.mobile.LoginActivity.password;
 
 public class LoginRequestHttpURLConnection {
 

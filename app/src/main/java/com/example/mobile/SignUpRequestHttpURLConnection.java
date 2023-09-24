@@ -1,8 +1,8 @@
 package com.example.mobile;
 
-import static com.example.mobile.RegisterActivity.email;
-import static com.example.mobile.RegisterActivity.password;
-import static com.example.mobile.RegisterActivity.name;
+import static com.example.mobile.SignUpActivity.email;
+import static com.example.mobile.SignUpActivity.password;
+import static com.example.mobile.SignUpActivity.name;
 
 import android.content.ContentValues;
 

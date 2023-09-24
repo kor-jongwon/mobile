@@ -1,14 +1,21 @@
 package com.example.mobile;
 
+import static com.example.mobile.valid_data.isPasswordValid;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.content.ContentValues;
 import android.os.AsyncTask;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -19,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     public EditText edit_email,edit_password;
     public Button btn_login,btn_register, btn_find_id, btn_find_pw;
     public static String email,password;
+    public TextView tv_error_email, tv_error_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +38,76 @@ public class LoginActivity extends AppCompatActivity {
         btn_find_id = findViewById(R.id.btn_find_id);
         btn_find_pw = findViewById(R.id.btn_find_pw);
 
-        edit_email = findViewById(R.id.edit_email);
-        edit_password = findViewById(R.id.edit_password);
+        edit_email = findViewById(R.id.editTextEmail);
+        edit_password = findViewById(R.id.editTextPassword);
+        tv_error_email = findViewById(R.id.tv_error_email);
+        tv_error_password = findViewById(R.id.tv_error_password);
 
+        // 이메일 입력 변경 감지
+        edit_email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 이메일 형식 확인
+                if (!Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
+                    tv_error_email.setTextColor(Color.parseColor("#FF0000"));
+                    tv_error_email.setText("이메일 형식으로 입력해주세요.");
+                    edit_email.setBackgroundResource(R.drawable.red_edittext);
+                }
+
+                // 올바른 이메일 형식인 경우
+                if (Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
+                    tv_error_email.setText(" ");
+                    edit_email.setBackgroundResource(R.drawable.green_edittext);
+                }
+
+                // 이메일이 비어있는 경우
+                if (s.toString().isEmpty()) {
+                    tv_error_email.setText("");
+                    edit_email.setBackgroundResource(R.drawable.white_edittext);
+                }
+            }
+        });
+
+        // 비밀번호 입력 변경 감지
+        edit_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 비밀번호 형식 확인
+                if (!isPasswordValid(s.toString())) {
+                    tv_error_password.setTextColor(Color.parseColor("#FF0000"));
+                    tv_error_password.setText("비밀번호 형식으로 입력해주세요.");
+                    edit_password.setBackgroundResource(R.drawable.red_edittext);
+                }
+
+                // 올바른 비밀번호 형식인 경우
+                if (isPasswordValid(s.toString())) {
+                    tv_error_password.setText(" ");
+                    edit_password.setBackgroundResource(R.drawable.green_edittext);
+                }
+
+                // 비밀번호가 비어있는 경우
+                if (s.toString().isEmpty()) {
+                    tv_error_password.setText(" ");
+                    edit_password.setBackgroundResource(R.drawable.white_edittext);
+                }
+            }
+        });
         //Todo:
         //이메일, 비밀번호 입력시 붉은 색 테두리 및 입력 잘못된거 메시지 출력 및 로그인 버튼 비활성화 혹은 메시지 출력
         //버튼 클릭시 이벤트 추가

@@ -13,6 +13,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private Button buttonResetPassword;
 
     //Todo:
+    //SignUpActivity.java 참고
     //붉은색 테두리 붉은 글씨 추가 필요
     //불일치 및 조건 불총족시 버튼 비활성화
     //뒤로가기 버튼(완료)

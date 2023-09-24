@@ -140,12 +140,17 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                //Todo:
+                // 비밀번호 자릿수가 12자리인지 비교 필요 지금은 비밀번호 안에 대문자,소문자, 숫자 특수문자만 있으면 조건 충족
+
                 check_password = false;
                 btn_sign_up.setEnabled(false);
 
                 // 비밀번호 형식 확인
                 if (!isPasswordValid(s.toString())) {
                     tv_error_password.setTextColor(Color.parseColor("#FF0000"));
+                    //todo:
+                    // 비밀번호 형식을 표시하기!
                     tv_error_password.setText("비밀번호 형식으로 입력해주세요.");
                     edit_password.setBackgroundResource(R.drawable.red_edittext);
                 }
@@ -334,14 +339,37 @@ public class SignUpActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             if (s != null) {
-                // 서버로부터 받은 결과를 Toast 메시지로 표시
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+
+                try {
+                    // JSON 문자열을 파싱하여 JSON 객체로 변환
+                    JSONObject jsonObject = new JSONObject(s);
+
+                    // JSON 객체에서 "message" 키의 값을 가져오기
+                    String message = jsonObject.optString("message", "");
+
+                    // "message" 값에 "성공하였습니다" 문자열이 포함되어 있는지 확인
+                    //Todo:
+                    //node.js에서 json으로 {message : "회원가입 성공"}이 넘어오면 message 값 비교해서 LoginActivity으로 창전환
+
+                    if (message.equals("회원가입 성공")) {
+                        Toast.makeText(getApplicationContext(), "회원가입 성공!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    // JSON 파싱 오류 처리
+                }
             } else {
                 // 서버 요청 실패 시 메시지를 표시하거나 다른 처리를 수행할 수 있음
                 Toast.makeText(getApplicationContext(), "서버 요청 실패", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
 
     public class duplicated_NetworkTask extends AsyncTask<Void, Void, String> {
 
@@ -356,7 +384,7 @@ public class SignUpActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             String result;
-            LoginRequestHttpURLConnection loginRequestHttpURLConnection = new LoginRequestHttpURLConnection();
+            Id_Duplicates_RequestHttpURLConnection loginRequestHttpURLConnection = new Id_Duplicates_RequestHttpURLConnection();
             result = loginRequestHttpURLConnection.request(url, values);
             return result;
         }
@@ -366,26 +394,18 @@ public class SignUpActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             if (s != null) {
-                Toast.makeText(getApplicationContext(),  s, Toast.LENGTH_SHORT).show();
+
                 try {
                     // JSON 문자열을 파싱하여 JSON 객체로 변환
                     JSONObject jsonObject = new JSONObject(s);
+                    //Todo:
+                    // Json에 값이 equals로 안맞아짐...해결필요
 
                     // JSON 객체에서 "message" 키의 값을 가져오기
                     String message = jsonObject.optString("message", "");
 
                     if (message.equals("사용 가능한 이메일입니다.")) {
                             emailDuplicated = true;
-                    }
-                    // "message" 값에 "성공하였습니다" 문자열이 포함되어 있는지 확인
-                    //Todo:
-                    //node.js에서 json으로 {message : "회원가입 성공"}이 넘어오면 message 값 비교해서 LoginActivity으로 창전환
-
-                    if (message.equals("회원가입 성공")) {
-                        Toast.makeText(getApplicationContext(), "회원가입 성공!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
                     }
                     else{
                         Toast.makeText(getApplicationContext(),  message, Toast.LENGTH_SHORT).show();

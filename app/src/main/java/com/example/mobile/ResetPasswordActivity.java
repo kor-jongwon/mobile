@@ -1,35 +1,32 @@
 package com.example.mobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
-    private EditText editTextName, editTextUsername, editTextEmail;
-    private Button buttonResetPassword;
+    private EditText editTextId, editTextName, editTextEmail;
+    private Button buttonResetPassword, btn_find_id, btn_reset_password;
 
-    //Todo:
-    //SignUpActivity.java 참고
-    //붉은색 테두리 붉은 글씨 추가 필요
-    //불일치 및 조건 불총족시 버튼 비활성화
-    //뒤로가기 버튼(완료)
-    //이메일 인증번호 (3:00분시간 타이머 설정)
-    //안증번호 생성기
-    //이메일 인증번호 전송
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
         // XML 레이아웃에서 위젯들을 찾아서 변수에 연결합니다.
+        editTextId = findViewById(R.id.editTextid);
         editTextName = findViewById(R.id.editTextName);
-        editTextUsername = findViewById(R.id.editTextUsername);
         editTextEmail = findViewById(R.id.editTextEmail);
-        buttonResetPassword = findViewById(R.id.buttonResetPassword);
+        btn_find_id = findViewById(R.id.btn_find_id);
+        btn_reset_password = findViewById(R.id.btn_resetPassword);
+
 
         // ActionBar 설정 및 뒤로 가기 버튼 활성화
         ActionBar actionBar = getSupportActionBar();
@@ -41,9 +38,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
         buttonResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 사용자가 입력한 이름, 아이디, 이메일을 가져옵니다.
+                // 사용자가 입력한 아이디, 이름, 이메일을 가져옵니다.
+                String id = editTextId.getText().toString();
                 String name = editTextName.getText().toString();
-                String username = editTextUsername.getText().toString();
                 String email = editTextEmail.getText().toString();
 
                 // 여기에서 비밀번호 재설정 로직을 구현하면 됩니다.
@@ -53,12 +50,31 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 // 예를 들어, 비밀번호가 성공적으로 재설정되었을 경우 결과를 화면에 표시하거나 다음 화면으로 이동할 수 있습니다.
             }
         });
+
+        btn_find_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "비밀번호 찾기 페이지 입니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btn_reset_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ResetPasswordActivity.this, FindIdActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
+
+
 
     @Override
     public boolean onSupportNavigateUp() {
         // 뒤로 가기 버튼을 클릭했을 때의 동작을 정의합니다.
-        onBackPressed();
+        Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
+        startActivity(intent);
         return true;
     }
 }

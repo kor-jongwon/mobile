@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imageViewPlant"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:clickable="true"
+        android:onClick="selectImage"
+        android:src="@drawable/default_plant_img" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="식물 이름 *"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextPlantName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="예) 사과나무" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="심은 날짜 *"
+        android:textStyle="bold" />
+
+    <DatePicker
+        android:id="@+id/datePickerPlantDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" /> <!-- 초기에는 숨겨진 상태로 설정 -->
+
+</LinearLayout>

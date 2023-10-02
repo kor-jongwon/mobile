@@ -1,0 +1,11 @@
+<!-- checkbox_checked_background.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:color="#70C36F">
+        <shape android:shape="rectangle">
+        </shape>
+    </item>
+    <item android:state_checked="false" android:color="#FF0000">
+        <shape android:shape="rectangle">
+        </shape>
+    </item>
+</selector>

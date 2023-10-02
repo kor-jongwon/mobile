@@ -1,6 +1,7 @@
 package com.example.mobile;
 
 import static com.example.mobile.SignUpActivity.email;
+import static com.example.mobile.SignUpActivity.id;
 import static com.example.mobile.SignUpActivity.password;
 import static com.example.mobile.SignUpActivity.name;
 
@@ -28,7 +29,7 @@ public class SignUpRequestHttpURLConnection {
          * */
         // 보낼 데이터가 없으면 파라미터를 비운다.
         if (_params == null)
-            sbParams.append("email="+email+"&password="+password+"&name="+name);
+            sbParams.append("id="+id+"&email="+email+"&password="+password+"&name="+name);
             // 보낼 데이터가 있으면 파라미터를 채운다.
         else {
             // 파라미터가 2개 이상이면 파라미터 연결에 &가 필요하므로 스위칭할 변수 생성.

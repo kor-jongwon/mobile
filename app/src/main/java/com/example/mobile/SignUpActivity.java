@@ -15,6 +15,8 @@ import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,12 +29,13 @@ import org.json.JSONObject;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    public static boolean emailDuplicated, check_name, check_password, check_password_valid;
+    public static boolean idDuplicated, check_name, check_password, check_password_valid, check_email;
 
-    public EditText edit_email, edit_password, edit_name, edit_password_check;
+    public EditText edit_email, edit_password, edit_name, edit_password_check, edit_id;
     public Button btn_duplicated, btn_sign_up;
-    public static String email, password, name;
-    public TextView tv_error_email, tv_error_password, tv_error_password_check;
+    public CheckBox myCheckBox1, myCheckBox2, myCheckBox3, myCheckBox4, myCheckBox5, myCheckBox6;
+    public static String email, password, name, id;
+    public TextView tv_error_email, tv_error_password, tv_error_password_check, tv_error_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +43,56 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         // 초기화
-        emailDuplicated = false;
+        idDuplicated = false;
         check_name = false;
         check_password = false;
         check_password_valid = false;
+        check_email = false;
 
         // 뷰 초기화
+        myCheckBox1 = findViewById(R.id.myCheckBox1);
+        myCheckBox2 = findViewById(R.id.myCheckBox2);
+        myCheckBox3 = findViewById(R.id.myCheckBox3);
+        myCheckBox4 = findViewById(R.id.myCheckBox4);
+        myCheckBox5 = findViewById(R.id.myCheckBox5);
+        myCheckBox6 = findViewById(R.id.myCheckBox6);
+
         btn_duplicated = findViewById(R.id.buttonCheckDuplicate);
         btn_sign_up = findViewById(R.id.buttonSignUp);
+
+        edit_id = findViewById(R.id.editTextid);
         edit_name = findViewById(R.id.editTextUsername);
         edit_email = findViewById(R.id.editTextEmail);
         edit_password = findViewById(R.id.editTextPassword);
         edit_password_check = findViewById(R.id.editTextPassword_check);
+
+        tv_error_id = findViewById(R.id.tv_error_id);
         tv_error_email = findViewById(R.id.tv_error_email);
         tv_error_password = findViewById(R.id.tv_error_password);
         tv_error_password_check = findViewById(R.id.tv_error_password_check);
+
+
+        // id 입력 변경 감지
+        edit_id.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                btn_duplicated.setEnabled(true);
+                tv_error_id.setVisibility(View.GONE);
+                edit_id.setBackgroundResource(R.drawable.white_edittext);
+
+                // 모든 조건 충족 시 회원가입 버튼 활성화
+
+
+            }
+        });
 
         // 이메일 입력 변경 감지
         edit_email.addTextChangedListener(new TextWatcher() {
@@ -68,7 +106,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                emailDuplicated = false;
+                check_email = false;
                 btn_sign_up.setEnabled(false);
 
                 // 이메일 형식 확인
@@ -76,26 +114,23 @@ public class SignUpActivity extends AppCompatActivity {
                     tv_error_email.setTextColor(Color.parseColor("#FF0000"));
                     tv_error_email.setText("이메일 형식으로 입력해주세요.");
                     edit_email.setBackgroundResource(R.drawable.red_edittext);
-                    btn_duplicated.setEnabled(false);
                 }
 
                 // 올바른 이메일 형식인 경우
                 if (Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
                     tv_error_email.setText(" ");
                     edit_email.setBackgroundResource(R.drawable.green_edittext);
-                    btn_duplicated.setEnabled(true);
+                    check_email = true;
 
                     // 모든 조건 충족 시 회원가입 버튼 활성화
-                    if (emailDuplicated && check_name && check_password && check_password_valid) {
-                        btn_sign_up.setEnabled(true);
-                    }
+
                 }
 
                 // 이메일이 비어있는 경우
                 if (s.toString().isEmpty()) {
                     tv_error_email.setText("");
                     edit_email.setBackgroundResource(R.drawable.white_edittext);
-                    btn_duplicated.setEnabled(false);
+
                 }
             }
         });
@@ -120,10 +155,6 @@ public class SignUpActivity extends AppCompatActivity {
                     check_name = true;
                     edit_name.setBackgroundResource(R.drawable.green_edittext);
 
-                    // 모든 조건 충족 시 회원가입 버튼 활성화
-                    if (emailDuplicated && check_name && check_password && check_password_valid) {
-                        btn_sign_up.setEnabled(true);
-                    }
                 }
             }
         });
@@ -162,9 +193,8 @@ public class SignUpActivity extends AppCompatActivity {
                     edit_password.setBackgroundResource(R.drawable.green_edittext);
 
                     // 모든 조건 충족 시 회원가입 버튼 활성화
-                    if (emailDuplicated && check_name && check_password && check_password_valid) {
-                        btn_sign_up.setEnabled(true);
-                    }
+
+
                 }
 
                 // 비밀번호가 비어있는 경우
@@ -199,9 +229,7 @@ public class SignUpActivity extends AppCompatActivity {
                         check_password_valid = true;
 
                         // 모든 조건 충족 시 회원가입 버튼 활성화
-                        if (emailDuplicated && check_name && check_password && check_password_valid) {
-                            btn_sign_up.setEnabled(true);
-                        }
+
                     } else {
                         tv_error_password_check.setText("비밀번호와 일치하지 않습니다.");
                         edit_password_check.setBackgroundResource(R.drawable.red_edittext);
@@ -232,25 +260,104 @@ public class SignUpActivity extends AppCompatActivity {
         btn_duplicated.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                email = edit_email.getText().toString();
+                id = edit_id.getText().toString();
 
-                // 이메일이 비어있는 경우
-                if (email.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "이메일을 입력해주세요", Toast.LENGTH_SHORT).show();
+                // 아이디가 비어있는 경우
+                if (id.isEmpty()) {
+                    tv_error_id.setVisibility(View.VISIBLE);
+                    tv_error_id.setTextColor(Color.parseColor("#FF0000"));
+                    tv_error_id.setText("아이디를 입력해주세요.");
+                    edit_id.setBackgroundResource(R.drawable.red_edittext);
                 }
 
                 // 올바른 이메일 형식인 경우
-                else if (valid_data.isEmail(email)) {
+                else {
                     String url = api_url.IDDUPLICATE.getValue();
                     ContentValues params = new ContentValues();
-                    params.put("email", email);
+                    params.put("id", id);
                     duplicated_NetworkTask dup_networkTask = new duplicated_NetworkTask(url, params);
                     dup_networkTask.execute();
                 }
+            }
+        });
 
-                // 올바르지 않은 이메일 형식인 경우
+        myCheckBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // CheckBox의 상태가 변경될 때 호출됩니다.
+                if (isChecked) {
+                    myCheckBox2.setChecked(true);
+                    myCheckBox3.setChecked(true);
+                    myCheckBox4.setChecked(true);
+                    myCheckBox5.setChecked(true);
+                    myCheckBox6.setChecked(true);
+                    if (idDuplicated && check_password_valid && check_name && check_email && check_password && myCheckBox2.isChecked() && myCheckBox3.isChecked() && myCheckBox4.isChecked() && myCheckBox5.isChecked()) {
+                        btn_sign_up.setEnabled(true);
+                    }
+                }
                 else {
-                    Toast.makeText(getApplicationContext(), "이메일 형식을 확인해주세요", Toast.LENGTH_SHORT).show();
+                    myCheckBox2.setChecked(false);
+                    myCheckBox3.setChecked(false);
+                    myCheckBox4.setChecked(false);
+                    myCheckBox5.setChecked(false);
+                    myCheckBox6.setChecked(false);
+                }
+            }
+        });
+        myCheckBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // CheckBox의 상태가 변경될 때 호출됩니다.
+                if (isChecked) {
+                    if (idDuplicated && check_password_valid && check_name && check_email && check_password && myCheckBox2.isChecked() && myCheckBox3.isChecked() && myCheckBox4.isChecked() && myCheckBox5.isChecked()) {
+                        btn_sign_up.setEnabled(true);
+                    }
+                }
+                else {
+                    btn_sign_up.setEnabled(false);
+                }
+            }
+        });
+        myCheckBox3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // CheckBox의 상태가 변경될 때 호출됩니다.
+                if (isChecked) {
+                    if (idDuplicated && check_password_valid && check_name && check_email && check_password && myCheckBox2.isChecked() && myCheckBox3.isChecked() && myCheckBox4.isChecked() && myCheckBox5.isChecked()) {
+                        btn_sign_up.setEnabled(true);
+                    }
+                }
+                else {
+                    btn_sign_up.setEnabled(false);
+                }
+            }
+        });
+        myCheckBox4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // CheckBox의 상태가 변경될 때 호출됩니다.
+                if (isChecked) {
+                    if (idDuplicated && check_password_valid && check_name && check_email && check_password && myCheckBox2.isChecked() && myCheckBox3.isChecked() && myCheckBox4.isChecked() && myCheckBox5.isChecked()) {
+                        btn_sign_up.setEnabled(true);
+                    }
+                }
+                else {
+                    btn_sign_up.setEnabled(false);
+                }
+            }
+        });
+        myCheckBox5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // CheckBox의 상태가 변경될 때 호출됩니다.
+                if (isChecked) {
+
+                    if (idDuplicated && check_password_valid && check_name && check_email && check_password && myCheckBox2.isChecked() && myCheckBox3.isChecked() && myCheckBox4.isChecked() && myCheckBox5.isChecked()) {
+                        btn_sign_up.setEnabled(true);
+                    }
+                }
+                else {
+                    btn_sign_up.setEnabled(false);
                 }
             }
         });
@@ -263,35 +370,10 @@ public class SignUpActivity extends AppCompatActivity {
                 password = edit_password.getText().toString();
                 name = edit_name.getText().toString();
 
-                // 이메일이 비어있는 경우
-                if (email.isEmpty()) {
-                    emailDuplicated = false;
-                    Toast.makeText(getApplicationContext(), "이메일 중복 확인 해주세요!", Toast.LENGTH_SHORT).show();
-                }
-
-                // 이메일 중복 확인이 되지 않은 경우
-                else if (!email.isEmpty() && !emailDuplicated) {
-                    Toast.makeText(getApplicationContext(), "이메일 중복 확인 해주세요!", Toast.LENGTH_SHORT).show();
-                }
-
-                // 비밀번호가 비어있는 경우
-                else if (password.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "비밀번호를 입력해주세요!", Toast.LENGTH_SHORT).show();
-                }
-
-                // 이름이 비어있는 경우
-                else if (name.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "이름을 입력해주세요!", Toast.LENGTH_SHORT).show();
-                }
-
-                // 비밀번호 형식이 올바르지 않은 경우
-                else if (!isPasswordValid(password)) {
-                    Toast.makeText(getApplicationContext(), "비밀번호 형식을 확인해주세요!", Toast.LENGTH_SHORT).show();
-                }
-
                 // 모든 조건을 만족하는 경우 회원가입 요청
-                else if (!email.isEmpty() && !password.isEmpty() && !name.isEmpty() && emailDuplicated && isPasswordValid(password)) {
+
                     ContentValues params = new ContentValues();
+                    params.put("id", id);
                     params.put("email", email);
                     params.put("password", password);
                     params.put("name", name);
@@ -299,7 +381,7 @@ public class SignUpActivity extends AppCompatActivity {
                     String url = api_url.SIGNUP.getValue();
                     NetworkTask networkTask = new NetworkTask(url, null);
                     networkTask.execute();
-                }
+
             }
         });
     }
@@ -318,8 +400,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
 
-        private String url;
-        private ContentValues values;
+        private final String url;
+        private final ContentValues values;
 
         public NetworkTask(String url, ContentValues values) {
             this.url = url;
@@ -353,7 +435,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                     if (message.equals("회원가입 성공")) {
                         Toast.makeText(getApplicationContext(), "회원가입 성공!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(SignUpActivity.this, SignUpCongratulationsActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
@@ -365,7 +447,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             } else {
                 // 서버 요청 실패 시 메시지를 표시하거나 다른 처리를 수행할 수 있음
-                Toast.makeText(getApplicationContext(), "서버 요청 실패", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "네트워크를 확인해주세요", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -373,8 +455,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     public class duplicated_NetworkTask extends AsyncTask<Void, Void, String> {
 
-        private String url;
-        private ContentValues values;
+        private final String url;
+        private final ContentValues values;
 
         public duplicated_NetworkTask(String url, ContentValues values) {
             this.url = url;
@@ -404,8 +486,27 @@ public class SignUpActivity extends AppCompatActivity {
                     // JSON 객체에서 "message" 키의 값을 가져오기
                     String message = jsonObject.optString("message", "");
 
-                    if (message.equals("사용 가능한 이메일입니다.")) {
-                            emailDuplicated = true;
+                    if (message.equals("아이디가 제공되지 않았습니다.")) {
+                        tv_error_id.setVisibility(View.VISIBLE);
+                        tv_error_id.setText("네트워크를 다시 확인해주세요.");
+                        edit_id.setBackgroundResource(R.drawable.red_edittext);
+
+                    }
+                    if (message.equals("중복된 아이디 입니다.")) {
+                        tv_error_id.setVisibility(View.VISIBLE);
+                        tv_error_id.setText("사용중인 아이디 입니다.");
+                        edit_id.setBackgroundResource(R.drawable.red_edittext);
+
+                    }
+                    if (message.equals("사용 가능한 아이디 입니다.")) {
+                        tv_error_id.setVisibility(View.VISIBLE);
+                        idDuplicated=true;
+                        tv_error_id.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+                        tv_error_id.setText("사용가능한 아이디 입니다.");
+
+                        btn_duplicated.setEnabled(false);
+                        edit_id.setBackgroundResource(R.drawable.green_edittext);
+
                     }
                     else{
                         Toast.makeText(getApplicationContext(),  message, Toast.LENGTH_SHORT).show();
@@ -415,8 +516,9 @@ public class SignUpActivity extends AppCompatActivity {
                     // JSON 파싱 오류 처리
                 }
             } else {
-                // 서버 요청 실패 시 메시지를 표시하거나 다른 처리를 수행할 수 있음
-                Toast.makeText(getApplicationContext(), "서버 요청 실패", Toast.LENGTH_SHORT).show();
+                tv_error_id.setVisibility(View.VISIBLE);
+                tv_error_id.setText("네트워크를 다시 확인해주세요.");
+                edit_id.setBackgroundResource(R.drawable.red_edittext);
             }
         }
     }

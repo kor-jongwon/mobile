@@ -1,5 +1,5 @@
 package com.example.mobile;
-import static com.example.mobile.SignUpActivity.email;
+import static com.example.mobile.SignUpActivity.id;
 import android.content.ContentValues;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class Id_Duplicates_RequestHttpURLConnection {
             urlConn.setRequestProperty("apikey", ""); // ""안에 apikey를 입력
 
             // [1-2]. parameter 전달 및 데이터 읽어오기.
-            String strParams = "email=" + email; // 변경: 파라미터 직접 설정
+            String strParams = "id=" + id; // 변경: 파라미터 직접 설정
             OutputStream os = urlConn.getOutputStream();
             os.write(strParams.getBytes("UTF-8"));
             os.flush();

@@ -5,6 +5,7 @@ import static com.example.mobile.valid_data.isPasswordValid;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.content.ContentValues;
@@ -14,6 +15,8 @@ import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,28 +26,34 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public EditText edit_email,edit_password;
-    public Button btn_login,btn_register, btn_find_id, btn_find_pw;
-    public static String email,password;
-    public TextView tv_error_email, tv_error_password;
+    public static boolean check_id, check_password;
+    public EditText edit_id,edit_password;
+    public Button btn_login;
+    public static String id,password;
+    public TextView tv_error_id, tv_error_password ;
+    public CheckBox saveIdCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        btn_login = findViewById(R.id.btn_login);
-        btn_register = findViewById(R.id.btn_register);
-        btn_find_id = findViewById(R.id.btn_find_id);
-        btn_find_pw = findViewById(R.id.btn_find_pw);
+        check_id = false;
+        check_password = false;
 
-        edit_email = findViewById(R.id.editTextEmail);
+        btn_login = findViewById(R.id.btn_login);
+
+
+        saveIdCheckBox = findViewById(R.id.saveIdCheckBox);
+        edit_id = findViewById(R.id.editTextid);
         edit_password = findViewById(R.id.editTextPassword);
-        tv_error_email = findViewById(R.id.tv_error_email);
+        tv_error_id = findViewById(R.id.tv_error_id);
         tv_error_password = findViewById(R.id.tv_error_password);
 
+        btn_login.setEnabled(false);
+
         // 이메일 입력 변경 감지
-        edit_email.addTextChangedListener(new TextWatcher() {
+        edit_id.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -55,23 +64,21 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // 이메일 형식 확인
-                if (!Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
-                    tv_error_email.setTextColor(Color.parseColor("#FF0000"));
-                    tv_error_email.setText("이메일 형식으로 입력해주세요.");
-                    edit_email.setBackgroundResource(R.drawable.red_edittext);
+                tv_error_id.setVisibility(View.GONE);
+                // 이메일이 비어있는 경우
+                if (!s.toString().isEmpty()) {
+                    tv_error_id.setText("");
+                    edit_id.setBackgroundResource(R.drawable.green_edittext);
+                    check_id =true;
+                    if (check_id & check_password){
+                        btn_login.setEnabled(true);
+                    }
                 }
-
-                // 올바른 이메일 형식인 경우
-                if (Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
-                    tv_error_email.setText(" ");
-                    edit_email.setBackgroundResource(R.drawable.green_edittext);
-                }
-
                 // 이메일이 비어있는 경우
                 if (s.toString().isEmpty()) {
-                    tv_error_email.setText("");
-                    edit_email.setBackgroundResource(R.drawable.white_edittext);
+                    check_id = false;
+                    tv_error_id.setText("");
+                    edit_id.setBackgroundResource(R.drawable.white_edittext);
                 }
             }
         });
@@ -88,8 +95,12 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                tv_error_password.setVisibility(View.GONE);
                 // 비밀번호 형식 확인
                 if (!isPasswordValid(s.toString())) {
+                    tv_error_password.setVisibility(View.VISIBLE);
+                    btn_login.setEnabled(false);
+                    check_password=false;
                     tv_error_password.setTextColor(Color.parseColor("#FF0000"));
                     tv_error_password.setText("비밀번호 형식으로 입력해주세요.");
                     edit_password.setBackgroundResource(R.drawable.red_edittext);
@@ -99,10 +110,17 @@ public class LoginActivity extends AppCompatActivity {
                 if (isPasswordValid(s.toString())) {
                     tv_error_password.setText(" ");
                     edit_password.setBackgroundResource(R.drawable.green_edittext);
+                    check_password=true;
+                    if (check_password & check_id){
+                        btn_login.setEnabled(true);
+                    }
                 }
 
                 // 비밀번호가 비어있는 경우
                 if (s.toString().isEmpty()) {
+                    tv_error_password.setVisibility(View.GONE);
+                    check_password = false;
+                    btn_login.setEnabled(false);
                     tv_error_password.setText(" ");
                     edit_password.setBackgroundResource(R.drawable.white_edittext);
                 }
@@ -115,57 +133,70 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                email = edit_email.getText().toString();
+                id = edit_id.getText().toString();
                 password = edit_password.getText().toString();
 
-                if (email.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "이메일을 입력해주세요", Toast.LENGTH_SHORT).show();
-                }
 
-                else if (password.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
-                }
+                String url = api_url.LOGIN.getValue();
+                NetworkTask networkTask = new NetworkTask(url, null);
+                networkTask.execute();
 
-                else if (!valid_data.isPasswordValid(password)) {
-                    Toast.makeText(getApplicationContext(), "비밀번호형식을 확인해주세요!", Toast.LENGTH_SHORT).show();
-                }
-
-                else if (!valid_data.isEmail(email)) {
-                    Toast.makeText(getApplicationContext(), "아이디를 확인해주세요!", Toast.LENGTH_SHORT).show();
-                }
-
-                else if (!email.isEmpty() & !password.isEmpty() & valid_data.isEmail(email) & valid_data.isPasswordValid(password)) {
-                    String url = api_url.LOGIN.getValue();
-                    NetworkTask networkTask = new NetworkTask(url, null);
-                    networkTask.execute();
-                }
             }
         });
 
-        btn_register.setOnClickListener(new View.OnClickListener() {
+
+
+        saveIdCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            // 아이디를 저장하는 함수
+            private void saveUsername(String id) {
+                SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("id", id);
+                editor.apply();
+            }
+
+            // 저장된 아이디를 가져오는 함수
+            private String getSavedUsername() {
+                SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                return preferences.getString("id", "");
+            }
+
+            // 체크박스 상태에 따라 아이디 저장 또는 삭제
+            private void handleUsernameSave(boolean isChecked) {
+                if (isChecked) {
+                    String id = edit_id.getText().toString();
+                    if (id.isEmpty()){
+                        tv_error_id.setVisibility(View.VISIBLE);
+                        edit_id.setBackgroundResource(R.drawable.red_edittext);
+                        tv_error_id.setText("아이디를 입력하세요.");
+                        saveIdCheckBox.setChecked(false);
+                    }
+                    else {
+                        // 체크박스가 체크된 경우 아이디 저장
+                        saveUsername(edit_id.getText().toString());
+                    }
+
+                } else {
+                    // 체크박스가 체크 해제된 경우 저장된 아이디 삭제
+                    saveUsername("");
+                }
+            }
             @Override
-            public void onClick(View v) {
-                // 회원가입 화면으로 이동하는 인텐트 생성
-                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(intent); // 인텐트 실행
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                handleUsernameSave(isChecked);
             }
         });
-        btn_find_id.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 회원가입 화면으로 이동하는 인텐트 생성
-                Intent intent = new Intent(LoginActivity.this, FindIdActivity.class);
-                startActivity(intent); // 인텐트 실행
-            }
-        });
-        btn_find_pw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 회원가입 화면으로 이동하는 인텐트 생성
-                Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
-                startActivity(intent); // 인텐트 실행
-            }
-        });
+
+
+    }
+    public void launchForgotPasswordActivity(View view) {
+        Intent intent = new Intent(this, FindIdActivity.class);
+        startActivity(intent);
+    }
+
+    public void launchsigupActivity(View view) {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
@@ -202,12 +233,27 @@ public class LoginActivity extends AppCompatActivity {
 
                     // "message" 값에 "성공하였습니다" 문자열이 포함되어 있는지 확인
                     if (message.contains("성공하였습니다")) {
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        startActivity(intent); // 인텐트 실행
+                        if (message.contains("로그인에 성공하였습니다. 그러나 식물 데이터가 없습니다.")) {
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            startActivity(intent); // 인텐트 실행
+                        }
+                        else{
+                            Intent intent = new Intent(LoginActivity.this, Register_plant.class);
+                            startActivity(intent); // 인텐트 실행
+                        }
+                    }
+                    else{
+                        edit_id.setBackgroundResource(R.drawable.red_edittext);
+                        edit_password.setBackgroundResource(R.drawable.red_edittext);
+                        tv_error_id.setVisibility(View.VISIBLE);
+                        tv_error_password.setVisibility(View.VISIBLE);
+                        tv_error_id.setText("아이디를 확인해주세요");
+                        tv_error_password.setText("비밀번호를 확인해주세요");
+
                     }
 
                     // 서버로부터 받은 결과를 Toast 메시지로 표시
-                    Toast.makeText(getApplicationContext(), "로그인 성공!", Toast.LENGTH_SHORT).show();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     // JSON 파싱 오류 처리

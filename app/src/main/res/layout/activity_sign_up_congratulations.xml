@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewCountdown"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="375dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/circle_background"
+        android:text="5"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textViewCongratulations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="축하합니다~\n지금부터 \nSmart Gardener로\n작물관리를 시작해볼까요?"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <Button
+        android:textColor="#FFFFFF"
+        android:id="@+id/buttonReturnToLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewCongratulations"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:textSize="15sp"
+        android:background="@drawable/button_radius"
+        android:text="          로그인 화면으로 돌아가기          " />
+
+</RelativeLayout>

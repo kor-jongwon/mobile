@@ -4,35 +4,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="#FFFF"
     tools:context=".HomeActivity">
+
+    <!-- "센서 제어" 버튼 -->
+
+    <!-- "통계" 버튼 -->
 
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="match_parent"
-        android:layout_height="565dp"
+        android:layout_height="847dp"
         android:layout_centerInParent="true"
         android:scaleType="centerCrop"
         android:src="@drawable/blur_plan"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-1dp" />
+        tools:layout_editor_absoluteY="-4dp" />
 
     <TextView
         android:id="@+id/subtitleLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="220dp"
+        android:layout_marginEnd="184dp"
+        android:layout_marginBottom="676dp"
         android:text="누구나 \n쉽고 편리하게\n관리할 수 있도록."
         android:textColor="@color/white"
-        android:textSize="25sp"
-        android:textStyle="bold"
+        android:textSize="29sp"
 
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/logoImageView"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="67dp" />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/docLabel"
@@ -40,14 +45,15 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginEnd="140dp"
+        android:layout_marginEnd="92dp"
+        android:layout_marginBottom="28dp"
         android:text="      자동 제어 스프링클러를 통해\n더욱더 편리하게 식물을 가꿔보세요."
         android:textColor="@color/white"
-        android:textSize="10sp"
+        android:textSize="15sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="382dp" />
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/registerButton"
@@ -55,15 +61,17 @@
         android:layout_height="35dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="256dp"
+        android:layout_marginTop="440dp"
         android:background="@drawable/button_radius"
         android:text="       지금 바로 식물 등록하기     "
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtitleLabel" />
 
     <Button
+        android:paddingTop="5dp"
         android:id="@+id/button_home"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -77,12 +85,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_sensor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+        app:layout_constraintTop_toBottomOf="@+id/registerButton"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <!-- "센서 제어" 버튼 -->
-
-    <!-- "통계" 버튼 -->
+    <!-- "설정" 버튼 -->
     <Button
+        android:paddingTop="5dp"
         android:id="@+id/button_sensor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -97,38 +105,41 @@
         app:layout_constraintEnd_toStartOf="@+id/button_stats"
         app:layout_constraintStart_toEndOf="@+id/button_home"
         app:layout_constraintTop_toBottomOf="@+id/registerButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
+        android:paddingTop="5dp"
         android:id="@+id/button_stats"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_marginTop="100dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF"
         android:drawableTop="@drawable/icons_an"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:gravity="center"
         android:text="통계"
         android:textSize="12sp"
-        android:background="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/button_sensor"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/settings"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+        app:layout_constraintStart_toEndOf="@+id/button_sensor"
+        app:layout_constraintTop_toBottomOf="@+id/registerButton"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <!-- "설정" 버튼 -->
     <Button
+        android:paddingTop="5dp"
         android:id="@+id/settings"
         android:layout_width="0dp"
-        android:layout_marginTop="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:layout_weight="1"
+        android:background="#FFFFFF"
         android:drawableTop="@drawable/icons8_control"
         android:gravity="center"
         android:text="설정"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/button_stats"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+        app:layout_constraintStart_toEndOf="@+id/button_stats"
+        app:layout_constraintTop_toBottomOf="@+id/registerButton"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

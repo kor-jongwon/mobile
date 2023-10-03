@@ -2,7 +2,10 @@
 <resources>
     <!-- values/styles.xml 또는 원하는 테마를 설정하는 파일에서 -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- 다른 스타일 속성들... -->
+        <item name="android:elevation">4dp</item>
+        <item name="toolbarStyle">@style/CustomToolBar</item>
+        <item name="colorPrimary">#FFFF</item>
+        <item name="toolbarNavigationButtonStyle">@style/AppTheme.Actionbar</item>
         <item name="popupTheme">@style/AppTheme.PopupOverlay</item>
     </style>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
@@ -14,4 +17,15 @@
         <!-- 다른 속성들을 원하면 여기에 추가할 수 있습니다. -->
     </style>
 
+
+    <style name="CustomToolBar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="android:elevation">0dp</item>
+        <item name="toolbarNavigationButtonStyle">@style/AppTheme.Actionbar</item>
+        <item name="titleTextColor">@color/black</item>
+    </style>
+
+    <style name="AppTheme.Actionbar" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:elevation">0dp</item>
+        <item name="android:tint">@color/black</item>
+    </style>
 </resources>

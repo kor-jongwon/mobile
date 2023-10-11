@@ -14,6 +14,7 @@ public class Register_plant extends Activity {
     private EditText editTextPlantName;
     private DatePicker datePickerPlantDate;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +22,7 @@ public class Register_plant extends Activity {
 
         imageViewPlant = findViewById(R.id.imageViewPlant);
         editTextPlantName = findViewById(R.id.editTextPlantName);
-        datePickerPlantDate = findViewById(R.id.datePickerPlantDate);
+        datePickerPlantDate = findViewById(R.id.date_picker_textview);
     }
 
     // 이미지를 선택하는 메서드 (이미지 처리는 추가 작업이 필요합니다)
@@ -41,5 +42,7 @@ public class Register_plant extends Activity {
         // 예: 데이터베이스에 저장하거나 다른 작업 수행
 
         Toast.makeText(this, "식물 이름: " + plantName + "\n심은 날짜: " + year + "년 " + month + "월 " + day + "일", Toast.LENGTH_SHORT).show();
+
+
     }
 }

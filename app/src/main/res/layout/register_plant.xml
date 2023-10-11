@@ -1,4 +1,6 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,30 +12,68 @@
         android:layout_height="150dp"
         android:clickable="true"
         android:onClick="selectImage"
-        android:src="@drawable/default_plant_img" />
+        android:src="@drawable/default_plant_img"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="92dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="식물 이름 *"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="341dp" />
 
     <EditText
         android:id="@+id/editTextPlantName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="예) 사과나무" />
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/white_edittext"
+        android:hint="예) 사과 나무"
+        android:paddingLeft="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#A0A0A0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="379dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="심은 날짜 *"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="465dp" />
 
-    <DatePicker
-        android:id="@+id/datePickerPlantDate"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/date_picker_textview"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/white_edittext"
+        android:hint="예) YYYY/MM/DD"
+        android:gravity="fill_vertical"
+        android:textSize="17dp"
+        android:paddingLeft="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#A0A0A0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.781"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="494dp" />
+
+    <Button
+        android:id="@+id/done_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone" /> <!-- 초기에는 숨겨진 상태로 설정 -->
+        android:background="@drawable/button_radius"
+        android:enabled="false"
+        android:text="완료"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="600dp" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

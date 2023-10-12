@@ -19,7 +19,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         btn_register_plant = findViewById(R.id.registerButton);
-
+        btn_register_plant.setVisibility(View.VISIBLE);
         btn_register_plant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

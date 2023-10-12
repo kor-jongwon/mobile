@@ -35,7 +35,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
 
         // 비밀번호 재설정 버튼의 클릭 이벤트를 설정합니다.
-        buttonResetPassword.setOnClickListener(new View.OnClickListener() {
+      /*  buttonResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 사용자가 입력한 아이디, 이름, 이메일을 가져옵니다.
@@ -49,8 +49,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 // 비밀번호 재설정 결과에 따라 적절한 처리를 수행합니다.
                 // 예를 들어, 비밀번호가 성공적으로 재설정되었을 경우 결과를 화면에 표시하거나 다음 화면으로 이동할 수 있습니다.
             }
-        });
 
+
+        });
+     */
         btn_find_id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

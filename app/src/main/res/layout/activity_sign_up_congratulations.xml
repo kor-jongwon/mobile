@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="회원가입을 환영합니다!\n지금부터 스마트 가드너와 함께 \n더욱더 스마트하게\n나만의 정원을 가꿔보세요."
+        android:text="축하합니다~\n지금부터 \nSmart Gardener로\n작물관리를 시작해볼까요?"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp" />

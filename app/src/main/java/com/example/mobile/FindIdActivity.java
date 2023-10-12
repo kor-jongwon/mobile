@@ -47,7 +47,7 @@ public class FindIdActivity extends AppCompatActivity {
         tv_error_email = findViewById(R.id.tv_error_email);
 
         btn_find_id = findViewById(R.id.btn_findId);
-        btn_reset_password = findViewById(R.id.btn_resetPassword);
+        btn_reset_password = findViewById(R.id.btn_resetPassword2323);
         buttonFindId = findViewById(R.id.btn_find_id);
 
         check_email = false;
@@ -55,6 +55,7 @@ public class FindIdActivity extends AppCompatActivity {
 
         buttonFindId.setEnabled(false);
         updateCountdownText();
+
 
 
         // 이름 입력 변경 감지
@@ -151,16 +152,6 @@ public class FindIdActivity extends AppCompatActivity {
             }
         });
 
-        Button btn_reset_password = findViewById(R.id.btn_resetPassword);
-        btn_reset_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 클릭 이벤트 처리
-                Intent intent = new Intent(FindIdActivity.this, ResetPasswordActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
         // 아이디 찾기 버튼의 클릭 이벤트를 설정합니다.
         buttonFindId.setOnClickListener(new View.OnClickListener() {
@@ -185,32 +176,48 @@ public class FindIdActivity extends AppCompatActivity {
                     params.put("name",name);
 
 
+                    // NetworkTask 실행
                     String url = api_url.FINDID.getValue();
-                    NetworkTask networkTask = new NetworkTask(url, params);
+
+// params 설정
+                    NetworkTask networkTask = new NetworkTask(url, params, new NetworkTask.OnTaskCompleted() {
+                        @Override
+                        public void onTaskCompleted(String result) {
+                            if (result != null) {
+                                // 작업이 성공적으로 완료된 경우 result에 결과가 전달됩니다.
+                                // 이곳에서 결과를 처리하세요.
+                                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                                verification = result;
+                            } else {
+                                // 작업이 실패한 경우 또는 결과가 없는 경우 처리하세요.
+                                Toast.makeText(getApplicationContext(), "인증실패 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                     networkTask.execute();
 
                     buttonFindId.setText("인증번호 확인");
                     textViewTimeLimit.setText("남은시간 5:00");
                     startCountdown();
-
+                    buttonFindId.setEnabled(false);
+                    check_ver = true;
+                }
+                else if (check_ver){
+                    Toast.makeText(getApplicationContext(), verification, Toast.LENGTH_SHORT).show();
                     if (editTextVer.toString() == verification) {
                         // 사용자가 입력한 이름과 이메일을 가져옵니다.
                         //intent id or id가 없는경우
                         Toast.makeText(getApplicationContext(), "인증번호가 확인되었습니다", Toast.LENGTH_SHORT).show();
                     }
-                    else if (editTextVer.toString() != verification){
-                        Toast.makeText(getApplicationContext(), "인증번호를 다시 확인해주세요", Toast.LENGTH_SHORT).show();
+                    else if (editTextVer.toString() != verification) {
+                        if (!editTextVer.toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "인증번호를 다시 확인해주세요2", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (editTextVer.toString().isEmpty()){
+                            Toast.makeText(getApplicationContext(), "인증번호를 입력해주세요", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    //인증번호 매치된느지 확인필요.
-                } else {
-                    Toast.makeText(getApplicationContext(), "인증번호를 다시 확인해주세요1", Toast.LENGTH_SHORT).show();
-                    if (editTextVer.toString() == verification) {
-                        // 사용자가 입력한 이름과 이메일을 가져옵니다.
-                        //intent id or id가 없는경우
-                    }
-                    else if (editTextVer.toString() != verification){
-                        Toast.makeText(getApplicationContext(), "인증번호를 다시 확인해주세요", Toast.LENGTH_SHORT).show();
-                    }
+
                 }
             }
         });
@@ -226,10 +233,20 @@ public class FindIdActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                buttonFindId.setEnabled(false);
-                
+                if (s.toString().isEmpty()) {
+                    buttonFindId.setEnabled(false);
+                }
+                if (!s.toString().isEmpty()) {
+                    buttonFindId.setEnabled(true);
+                }
+
             }
         });
+    }
+    public void resetPasswordButtonClick(View view) {
+        // 클릭 이벤트 처리
+        Intent intent = new Intent(this, ResetPasswordActivity.class);
+        startActivity(intent);
     }
     private void startCountdown() {
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
@@ -261,15 +278,16 @@ public class FindIdActivity extends AppCompatActivity {
         startActivity(intent);
         return true;
     }
-
-public class NetworkTask extends AsyncTask<Void, Void, String> {
-
+    public static class NetworkTask extends AsyncTask<Void, Void, String> {
         private String url;
         private ContentValues values;
+        private OnTaskCompleted listener; // 작업 완료 리스너
 
-        public NetworkTask(String url, ContentValues values) {
+        // 생성자에 리스너 추가
+        public NetworkTask(String url, ContentValues values, OnTaskCompleted listener) {
             this.url = url;
             this.values = values;
+            this.listener = listener;
         }
 
         @Override
@@ -293,11 +311,17 @@ public class NetworkTask extends AsyncTask<Void, Void, String> {
                     String message = jsonObject.optString("message", "");
                     String verificationCode = jsonObject.optString("verification", "");
 
-
                     if (!message.isEmpty() && !verificationCode.isEmpty()) {
                         verification = verificationCode;
+                        // 작업 완료 리스너 호출
+                        if (listener != null) {
+                            listener.onTaskCompleted(verification);
+                        }
                     } else {
-                        Toast.makeText(getApplicationContext(), "인증실패 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                        // 작업 완료 리스너 호출
+                        if (listener != null) {
+                            listener.onTaskCompleted(null);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -305,8 +329,16 @@ public class NetworkTask extends AsyncTask<Void, Void, String> {
                 }
             } else {
                 // 서버 요청 실패 시 메시지를 표시하거나 다른 처리를 수행할 수 있음
-                Toast.makeText(getApplicationContext(), "서버 요청 실패", Toast.LENGTH_SHORT).show();
+                // 작업 완료 리스너 호출
+                if (listener != null) {
+                    listener.onTaskCompleted(null);
+                }
             }
+        }
+
+        // 작업 완료 리스너 인터페이스 정의
+        public interface OnTaskCompleted {
+            void onTaskCompleted(String result);
         }
     }
 

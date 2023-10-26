@@ -59,6 +59,12 @@
         <activity android:name=".SensorRegisterActivity">
             <!-- intent-filter 및 다른 설정 (선택 사항) -->
         </activity>
+
+        <activity android:name=".SensorControlActivity">
+            <!-- intent-filter 및 다른 설정 (선택 사항) -->
+        </activity>
+
+
         <!-- 아래의 receiver 요소를 추가합니다. -->
         <receiver
             android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"

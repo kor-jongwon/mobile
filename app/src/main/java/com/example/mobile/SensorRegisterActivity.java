@@ -7,7 +7,14 @@ import android.view.View;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SensorRegisterActivity extends AppCompatActivity {
+    public static boolean check_rgId, check_rgname;
     private EditText editTextName;
     private EditText editTextId;
 
@@ -61,15 +68,39 @@ public class SensorRegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 // 텍스트가 변경된 후 호출되는 부분
                 String inputText = s.toString();
-                if (inputText.isEmpty()) {
-                    // 입력이 비어 있는 경우
-                    editTextId.setBackgroundResource(R.drawable.red_edittext); // 붉은색 배경
-                } else {
-                    // 입력이 비어 있지 않은 경우
-                    editTextId.setBackgroundResource(R.drawable.white_edittext); // 흰색 배경
 
+                boolean first = true;
+
+                String REGEXP_PATTERN_NUMBER = "[ !@#$%^&*(),.?\\\":{}|<>]";
+
+                editTextId.setBackgroundResource(R.drawable.white_edittext);
+
+                if (!inputText.isEmpty()) {
+                    // 입력이 비어 있는 경우
+                    // 흰색 배경
+                    editTextId.setBackgroundResource(R.drawable.white_edittext);
+                    first = false;
                 }
+
+
+                Pattern pattern = Pattern.compile(REGEXP_PATTERN_NUMBER);
+                Matcher matcher = pattern.matcher(inputText);
+
+                while(matcher.find()){
+                    editTextId.setBackgroundResource(R.drawable.red_edittext);
+                }
+
+
+
+
+                /*if (!first) {
+                    editTextId.setBackgroundResource(R.drawable.red_edittext); // 붉은색 배경
+                }*/
+
+
+
             }
+
         });
 
 

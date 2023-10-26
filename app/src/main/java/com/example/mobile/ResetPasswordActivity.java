@@ -69,9 +69,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         });
     }
 
-
-
-
     @Override
     public boolean onSupportNavigateUp() {
         // 뒤로 가기 버튼을 클릭했을 때의 동작을 정의합니다.

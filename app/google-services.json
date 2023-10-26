@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1055676901707",
+    "project_id": "smart-sprinkler-95693",
+    "storage_bucket": "smart-sprinkler-95693.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055676901707:android:9d9f3ac509b7aa7630a0ce",
+        "android_client_info": {
+          "package_name": "com.example.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055676901707-hn0bqppu6bf8k8tk9r300vph3p48pdel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB84-_y883QHef6Eh5MxUZ1FTLuNytrC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1055676901707-hn0bqppu6bf8k8tk9r300vph3p48pdel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -12,6 +12,7 @@ public class HomeActivity extends AppCompatActivity {
     //메인화며기능구현
 
     public Button btn_register_plant;
+    public Button btn_sensor_control;// 센서 제어 버튼
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +27,28 @@ public class HomeActivity extends AppCompatActivity {
                 launchRegister_plant();
             }
 
-
-
-
         });
+
+        btn_sensor_control = findViewById(R.id.button_sensor);
+        btn_sensor_control.setVisibility(View.VISIBLE);
+
+        btn_sensor_control.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchSensorRegisterActivity();
+            }
+        });
+
     }
-    public void launchRegister_plant() {
+
+    private void launchRegister_plant() {
         // "아이디 찾기" 텍스트를 클릭했을 때 호출되는 메서드
-        Intent intent = new Intent(this, Register_plant.class);
+        Intent intent = new Intent(this, SensorRegisterActivity.class);
+        startActivity(intent);
+    }
+    private void launchSensorRegisterActivity() {
+        // "아이디 찾기" 텍스트를 클릭했을 때 호출되는 메서드
+        Intent intent = new Intent(this, SensorRegisterActivity.class);
         startActivity(intent);
     }
 }

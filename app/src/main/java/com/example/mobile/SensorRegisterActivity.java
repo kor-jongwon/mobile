@@ -3,6 +3,7 @@ package com.example.mobile;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -66,8 +67,11 @@ public class SensorRegisterActivity extends AppCompatActivity {
                 } else {
                     // 입력이 비어 있지 않은 경우
                     editTextId.setBackgroundResource(R.drawable.white_edittext); // 흰색 배경
+
                 }
             }
         });
+
+
     }
 }

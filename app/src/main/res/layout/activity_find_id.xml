@@ -94,7 +94,7 @@
             android:textColor="#FF0000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextName"
-            tools:text=" " />
+            tools:text="" />
 
         <TextView
             android:id="@+id/textView_email"
@@ -129,7 +129,7 @@
             android:textColor="#FF0000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
-            tools:text=" " />
+            tools:text="" />
 
         <TextView
             android:id="@+id/textView_VerificationCode"

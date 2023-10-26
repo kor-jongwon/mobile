@@ -55,7 +55,7 @@
         <activity
             android:name=".Register_plant"
             android:label="식물 등록" >
-        </activity>
+        </activity>\
         <!-- 아래의 receiver 요소를 추가합니다. -->
         <receiver
             android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"

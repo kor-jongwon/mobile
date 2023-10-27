@@ -8,7 +8,7 @@
     tools:context=".HomeActivity">
 
     <ImageView
-        android:id="@+id/logoImageView"
+        android:id="@+id/logoImageView2"
         android:layout_width="match_parent"
         android:layout_height="847dp"
         android:layout_centerInParent="true"
@@ -19,7 +19,7 @@
         tools:layout_editor_absoluteY="-4dp" />
 
     <TextView
-        android:id="@+id/subtitleLabel"
+        android:id="@+id/subtitleLabel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -28,14 +28,13 @@
         android:text="누구나 \n쉽고 편리하게\n관리할 수 있도록."
         android:textColor="@color/white"
         android:textSize="29sp"
-
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/logoImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/logoImageView2"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/docLabel"
+        android:id="@+id/docLabel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -46,12 +45,12 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/registerButton"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton2"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/registerButton2"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_centerHorizontal="true"
@@ -63,11 +62,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subtitleLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/subtitleLabel2" />
 
     <!-- "홈" 버튼 -->
     <Button
-        android:id="@+id/button_home"
+        android:id="@+id/button_home2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -79,14 +78,14 @@
         android:text="홈"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_sensor"
+        app:layout_constraintEnd_toStartOf="@+id/button_sensor2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton"
+        app:layout_constraintTop_toBottomOf="@+id/registerButton2"
         app:layout_constraintVertical_bias="1.0" />
 
     <!-- "센서제어" 버튼 -->
     <Button
-        android:id="@+id/button_sensor"
+        android:id="@+id/button_sensor2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -98,14 +97,14 @@
         android:text="센서 제어"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_stats"
-        app:layout_constraintStart_toEndOf="@+id/button_home"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton"
+        app:layout_constraintEnd_toStartOf="@+id/button_stats2"
+        app:layout_constraintStart_toEndOf="@+id/button_home2"
+        app:layout_constraintTop_toBottomOf="@+id/registerButton2"
         app:layout_constraintVertical_bias="1.0" />
 
     <!-- "통계" 버튼 -->
     <Button
-        android:id="@+id/button_stats"
+        android:id="@+id/button_stats2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -117,14 +116,14 @@
         android:text="통계"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/settings"
-        app:layout_constraintStart_toEndOf="@+id/button_sensor"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton"
+        app:layout_constraintEnd_toStartOf="@+id/settings2"
+        app:layout_constraintStart_toEndOf="@+id/button_sensor2"
+        app:layout_constraintTop_toBottomOf="@+id/registerButton2"
         app:layout_constraintVertical_bias="1.0" />
 
     <!-- "설정" 버튼 -->
     <Button
-        android:id="@+id/settings"
+        android:id="@+id/settings2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -137,14 +136,14 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button_stats"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton"
+        app:layout_constraintStart_toEndOf="@+id/button_stats2"
+        app:layout_constraintTop_toBottomOf="@+id/registerButton2"
         app:layout_constraintVertical_bias="1.0" />
 
     <androidx.constraintlayout.helper.widget.Layer
         android:id="@+id/layer2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="registerButton" />
+        app:constraint_referenced_ids="registerButton2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

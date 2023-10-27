@@ -70,15 +70,7 @@ public class FindIdActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                check_name = false;
-                buttonFindId.setEnabled(false);
 
-                // 이름이 비어있는 경우
-                if (s.toString().isEmpty()) {
-                    buttonFindId.setEnabled(false);
-                    check_name = false;
-                    editTextName.setBackgroundResource(R.drawable.white_edittext);
-                }
                 if (!s.toString().isEmpty()) {
                     check_name = true;
                     editTextName.setBackgroundResource(R.drawable.green_edittext);
@@ -87,7 +79,12 @@ public class FindIdActivity extends AppCompatActivity {
                         buttonFindId.setText("인증번호 받기");
                         buttonFindId.setEnabled(true);
                     }
+                    return;
                 }
+
+                buttonFindId.setEnabled(false);
+                check_name = false;
+                editTextName.setBackgroundResource(R.drawable.white_edittext);
             }
         });
 

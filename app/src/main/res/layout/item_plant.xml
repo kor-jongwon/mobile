@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/plantImageView"
+        android:layout_width="330dp"
+        android:layout_height="142dp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/plantNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Plant Name"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/plantDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Plant Date"
+        android:textSize="14sp" />
+
+</LinearLayout>

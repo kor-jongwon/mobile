@@ -21,7 +21,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class Register_plant extends Activity {
+public class RegisterPlantActivity extends Activity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private EditText editTextPlantName;
     private TextView textViewDate;

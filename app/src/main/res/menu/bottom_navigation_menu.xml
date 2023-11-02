@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="ExtraText">
+    <item
+        android:id="@+id/nav_button1"
+        android:icon="@drawable/icons_plant"
+        android:title="버튼1" />
+    <item
+        android:id="@+id/nav_button2"
+        android:icon="@drawable/icons8_control"
+        android:title="버튼2" />
+    <item
+        android:id="@+id/nav_button3"
+        android:icon="@drawable/icons_an"
+        android:title="버튼3" />
+
+    <item
+        android:id="@+id/nav_button4"
+        android:icon="@drawable/icon_settings"
+        android:title="버튼4" />
+
+</menu>
+
+
+
+

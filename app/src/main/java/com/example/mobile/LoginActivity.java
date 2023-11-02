@@ -12,7 +12,6 @@ import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -238,7 +237,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent); // 인텐트 실행
                         }
                         else{
-                            Intent intent = new Intent(LoginActivity.this, Register_plant.class);
+                            Intent intent = new Intent(LoginActivity.this, RegisterPlantActivity.class);
                             startActivity(intent); // 인텐트 실행
                         }
                     }

@@ -1,10 +1,10 @@
 package com.example.mobile;
 
 public enum api_url {
-    LOGIN("http://3.36.113.184/login"),
-    SIGNUP("http://3.36.113.184/signup"),
-    IDDUPLICATE("http://3.36.113.184/duplicated"),
-    FINDID("http://3.36.113.184/findid");
+    LOGIN("http://3.36.113.184:30001/login"),
+    SIGNUP("http://3.36.113.184:30001/signup"),
+    IDDUPLICATE("http://3.36.113.184:30001/duplicated"),
+    FINDID("http://3.36.113.184:30001/findid");
 
     private final String value;
 

@@ -15,11 +15,31 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SensorRegisterActivity extends AppCompatActivity {
-    public static boolean check_rgId, check_rgname;
     private EditText editTextName;
     private EditText editTextId;
 
     public static boolean check_sensorId, check_sensorName;
+
+    // 센서 ID 대소문자 구분 검사
+    private boolean isIdCaseSensitive (String id){
+        // 대소문자 구분을 원하는 경우:
+        if (id.equals(id.toUpperCase())){
+            return false; // 들어온 id와 id를 모두 대문자로 바꿔서 비교했을 때 같으면 문제 없으므로 false
+        } else {
+            return true;  // 문제가 있으므로 true -> 텍스트 색이 레드로 보여줌
+        }
+    }
+
+    //공백검사
+    private boolean isStringEmpty (String text){
+        if (text == null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +53,7 @@ public class SensorRegisterActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // 텍스트가 변경되기 전에 호출되는 부분
+
             }
 
             @Override
@@ -42,15 +63,16 @@ public class SensorRegisterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // 텍스트가 변경된 후 호출되는 부분
+
                 String inputText = s.toString();
                 if (inputText.isEmpty()) {
                     // 입력이 비어 있는 경우
-                    editTextName.setBackgroundResource(R.drawable.red_edittext); // 붉은색 배경
+                    editTextName.setBackgroundResource(R.drawable.white_edittext); // 흰색 배경
                 } else {
                     // 입력이 비어 있지 않은 경우
-                    editTextName.setBackgroundResource(R.drawable.white_edittext); // 흰색 배경
+                    editTextName.setBackgroundResource(R.drawable.green_edittext); // 녹색 배경
                 }
+
             }
         });
 
@@ -75,50 +97,33 @@ public class SensorRegisterActivity extends AppCompatActivity {
                 //특수문자 검사
                 String REGEXP_PATTERN_NUMBER = "[ !@#$%^&*(),.?\\\":{}|<>]";
 
-                editTextId.setBackgroundResource(R.drawable.white_edittext);
-
-                if (!inputText.isEmpty()) {
-                    // 입력이 비어 있는 경우
-                    // 흰색 배경
-                    editTextId.setBackgroundResource(R.drawable.white_edittext);
-                    first = false;
-                }
+               // editTextId.setBackgroundResource(R.drawable.white_edittext);
 
                 Pattern pattern = Pattern.compile(REGEXP_PATTERN_NUMBER);
                 Matcher matcher = pattern.matcher(inputText);
 
+                int specialCharacterCount = 0; // 특수문자 개수를 저장하는 변수
+
                 while (matcher.find()) {
-                    editTextId.setBackgroundResource(R.drawable.red_edittext);
-                }
-            }
-        });
-
-                // 중복 검사
-                if (isIdDuplicate(inputText)) {
-                    editTextId.setBackgroundResource(R.drawable.red_edittext);
-                    return;
+                    specialCharacterCount++;
                 }
 
-                // 공백 검사
-                if (inputText.isEmpty()) {
-                    editTextId.setBackgroundResource(R.drawable.red_edittext);
-                    return;
-                }
 
-                // 대소문자 구분
-                if (isIdCaseSensitive(inputText)) {
+                if (specialCharacterCount >= 1 || inputText.isEmpty()) {
                     editTextId.setBackgroundResource(R.drawable.red_edittext);
                 } else {
                     editTextId.setBackgroundResource(R.drawable.white_edittext);
                 }
 
-                /*if (!first) {
-                    editTextId.setBackgroundResource(R.drawable.red_edittext); // 붉은색 배경
-                }*/
-
-                private boolean isIdDuplicate (String id){
-
+                // 대소문자 구분
+                if (isIdCaseSensitive(inputText)) {
+                    editTextId.setBackgroundResource(R.drawable.red_edittext);
                 }
+                if (!isIdCaseSensitive(inputText) && specialCharacterCount == 0) {
+                    editTextId.setBackgroundResource(R.drawable.white_edittext);
+                }
+            }
+        });
 
 
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#FFFF"
     >
 
@@ -14,11 +14,7 @@
         android:layout_marginTop="30dp"
         android:text="센서 이름 *"
         android:layout_marginLeft="20dp"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="#000000" />
 
     <EditText
         android:id="@id/editTextName"
@@ -29,22 +25,11 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/white_edittext"
         android:hint="센서 이름 입력해 주세요."
+        android:textColorHint="#A0A0A0"
         android:paddingLeft="10dp"
 
-        android:textColor="#000000"
-        android:textColorHint="#A0A0A0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name" />
+        />
 
-    <TextView
-        android:id="@+id/tv_error_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#FF0000"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
     <TextView
         android:id="@+id/textView_email"
@@ -54,10 +39,7 @@
         android:text="센서 ID *"
         android:layout_marginLeft="20dp"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_error_name" />
+        />
 
     <EditText
         android:id="@+id/editTextId"
@@ -71,10 +53,15 @@
         android:paddingLeft="10dp"
         android:textColor="#000000"
         android:textColorHint="#A0A0A0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_email" />
-
+        />
+    <TextView
+        android:id="@+id/tv_error_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:layout_marginLeft="20dp"
+       />
+<!--
     <Button
         android:id="@+id/btn_find_id3"
         android:layout_width="109dp"
@@ -90,6 +77,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.978"
         app:layout_constraintStart_toStartOf="parent" />
+-->
+
+    <Button
+        android:id="@+id/btn_find_id3"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="20dp"
+        android:enabled="true"
+        android:hint="인증하기"
+        android:textColor="#000000"
+        />
 
     <Button
         android:id="@+id/btn_finish"
@@ -102,10 +102,8 @@
         android:text="완료"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+       />
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

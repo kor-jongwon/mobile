@@ -82,7 +82,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="432dp"
-        android:background="@drawable/button_half_radius_gray"
+        android:background="@drawable/button_radius"
         android:text="인증하기"
         android:textColor="#FFFFFF"
         android:textSize="15sp"

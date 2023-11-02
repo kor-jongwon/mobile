@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class SensorRegisterActivity extends AppCompatActivity {
     private EditText editTextName;
     private EditText editTextId;
 
+    public static boolean check_sensorId, check_sensorName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,9 +70,9 @@ public class SensorRegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 // 텍스트가 변경된 후 호출되는 부분
                 String inputText = s.toString();
-
                 boolean first = true;
 
+                //특수문자 검사
                 String REGEXP_PATTERN_NUMBER = "[ !@#$%^&*(),.?\\\":{}|<>]";
 
                 editTextId.setBackgroundResource(R.drawable.white_edittext);
@@ -82,26 +84,43 @@ public class SensorRegisterActivity extends AppCompatActivity {
                     first = false;
                 }
 
-
                 Pattern pattern = Pattern.compile(REGEXP_PATTERN_NUMBER);
                 Matcher matcher = pattern.matcher(inputText);
 
-                while(matcher.find()){
+                while (matcher.find()) {
                     editTextId.setBackgroundResource(R.drawable.red_edittext);
                 }
+            }
+        });
 
+                // 중복 검사
+                if (isIdDuplicate(inputText)) {
+                    editTextId.setBackgroundResource(R.drawable.red_edittext);
+                    return;
+                }
 
+                // 공백 검사
+                if (inputText.isEmpty()) {
+                    editTextId.setBackgroundResource(R.drawable.red_edittext);
+                    return;
+                }
 
+                // 대소문자 구분
+                if (isIdCaseSensitive(inputText)) {
+                    editTextId.setBackgroundResource(R.drawable.red_edittext);
+                } else {
+                    editTextId.setBackgroundResource(R.drawable.white_edittext);
+                }
 
                 /*if (!first) {
                     editTextId.setBackgroundResource(R.drawable.red_edittext); // 붉은색 배경
                 }*/
 
+                private boolean isIdDuplicate (String id){
+
+                }
 
 
-            }
-
-        });
 
 
     }

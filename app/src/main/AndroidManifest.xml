@@ -53,7 +53,7 @@
             <!-- 필요한 인텐트 필터 또는 설정 추가 -->
         </activity>
         <activity
-            android:name=".Register_plant"
+            android:name=".RegisterPlantActivity"
             android:label="식물 등록" >
         </activity>
         <activity android:name=".SensorRegisterActivity">

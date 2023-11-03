@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Eleven</string>
+
+    <string name="complete">완료</string>
+    <string name="exDate">YYYY/MM/DD</string>
+    <!-- register_Plant -->
+    <string name="registry_image_description">식물 사진 표시자</string>
+    <string name="calendar">달력</string>
+    <string name="planted_name_tag">식물 이름 *</string>
+    <string name="planted_date_tag">심은 날짜 * </string>
+    <string name="plant_name_hint">예) 사과나무</string>
 </resources>

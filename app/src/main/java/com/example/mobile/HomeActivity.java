@@ -35,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
         btn_sensor_control.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchSensorControlActivity();
+                launchSensorRegisterActivity();
             }
         });
 
@@ -43,10 +43,10 @@ public class HomeActivity extends AppCompatActivity {
 
     private void launchRegister_plant() {
         // "아이디 찾기" 텍스트를 클릭했을 때 호출되는 메서드
-        Intent intent = new Intent(this, RegisterPlantActivity.class);
+        Intent intent = new Intent(this, SensorRegisterActivity.class);
         startActivity(intent);
     }
-    private void launchSensorControlActivity() {
+    private void launchSensorRegisterActivity() {
         // "아이디 찾기" 텍스트를 클릭했을 때 호출되는 메서드
         Intent intent = new Intent(this, SensorRegisterActivity.class);
         startActivity(intent);

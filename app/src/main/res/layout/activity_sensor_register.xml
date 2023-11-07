@@ -4,35 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFF"
-    >
+    android:background="#FFFF">
 
     <TextView
-        android:id="@id/textView_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="센서 이름 *"
-        android:layout_marginLeft="20dp"
-        android:textColor="#000000" />
-
-    <EditText
-        android:id="@id/editTextName"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/white_edittext"
-        android:hint="센서 이름 입력해 주세요."
-        android:textColorHint="#A0A0A0"
-        android:paddingLeft="10dp"
-
-        />
-
-
-    <TextView
-        android:id="@+id/textView_email"
+        android:id="@+id/sensor_register.textView_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -42,7 +17,7 @@
         />
 
     <EditText
-        android:id="@+id/editTextId"
+        android:id="@+id/sensor_register.editText_id"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
@@ -55,49 +30,67 @@
         android:textColorHint="#A0A0A0"
         />
     <TextView
-        android:id="@+id/tv_error_id"
+        android:id="@+id/sensor_register.tv_error_Id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FF0000"
+        android:visibility="gone"
         android:layout_marginLeft="20dp"
-       />
-<!--
-    <Button
-        android:id="@+id/btn_find_id3"
-        android:layout_width="109dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="432dp"
-        android:background="@drawable/button_radius"
-        android:text="인증하기"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.978"
-        app:layout_constraintStart_toStartOf="parent" />
--->
-
-    <Button
-        android:id="@+id/btn_find_id3"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="right"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="20dp"
-        android:enabled="true"
-        android:hint="인증하기"
-        android:textColor="#000000"
         />
 
     <Button
-        android:id="@+id/btn_finish"
+        android:id="@+id/sensor_register.buttonCheckDuplicate"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="right"
+        android:background="@drawable/button_radius"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:enabled="true"
+        android:textColor="#FFFFFF"
+        android:hint="인증하기"
+
+        />
+
+    <TextView
+        android:id="@+id/sensor_register.textView_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="센서 이름 *"
+        android:layout_marginLeft="20dp"
+        android:textColor="#000000" />
+
+    <EditText
+        android:id="@+id/sensor_register.editText_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/white_edittext"
+        android:hint="센서 이름 입력해 주세요."
+        android:textColorHint="#A0A0A0"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:id="@+id/sensor_register.tv_error_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:visibility="gone"
+        android:layout_marginLeft="20dp"
+        />
+
+
+    <Button
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="350dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/button_radius"
         android:text="완료"
         android:textColor="#FFFFFF"

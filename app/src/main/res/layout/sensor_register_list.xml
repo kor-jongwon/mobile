@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFF">
+
+    <!-- "센서 이름" 텍스트뷰를 RelativeLayout 안에 정의하고 상단에 고정 -->
+    <TextView
+        android:id="@+id/textView_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/icons8_control"
+        android:text=" 센서 이름 "
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+
+
+    <EditText
+        android:id="@+id/search_field"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/textView_name"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/edittext_rounded_corner_rectangle"
+        android:drawableLeft="@drawable/ic_search"
+        android:drawablePadding="10dp"
+        android:hint="검색"
+        android:inputType="text"
+        android:padding="12dp" /> <!-- 검색 텍스트 입력 유형 -->
+
+    <!-- 하단 버튼들을 포함하는 LinearLayout을 RelativeLayout 안에 정의하고 하단에 고정 -->
+    <LinearLayout
+        android:id="@+id/linearLayout_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFF"
+        android:orientation="horizontal">
+
+        <!-- 버튼들 정의 -->
+
+        <!-- 홈 버튼 -->
+        <Button
+            android:id="@+id/button_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:drawableTop="@drawable/icons_plant"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="홈"
+            android:textSize="12sp" />
+
+        <!-- 센서 제어 버튼 -->
+        <Button
+            android:id="@+id/button_sensor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:drawableTop="@drawable/icons8_control"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="센서 제어"
+            android:textSize="12sp" />
+
+        <!-- 통계 -->
+        <Button
+            android:id="@+id/button_stats"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:drawableTop="@drawable/icons_an"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="통계"
+            android:textSize="12sp" />
+
+        <!-- 설정 -->
+        <Button
+            android:id="@+id/settings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:drawableTop="@drawable/icons8_control"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="설정"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <!-- ScrollView 내부에 LinearLayout을 추가하여 사각형 View들을 수직으로 나열 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/linearLayout_buttons"
+        android:layout_below="@id/search_field">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- 여기에 사각형 View들을 추가합니다. -->
+            <!-- 첫 번째 상자 -->
+            <View
+                android:layout_width="350dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/sensor_register_list" />
+            <!-- 두 번째 상자 -->
+            <View
+                android:layout_width="350dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/sensor_register_list" />
+            <!-- 세 번째 상자 -->
+            <View
+                android:layout_width="350dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/sensor_register_list" />
+            <!-- 네 번째 상자 -->
+            <View
+                android:layout_width="350dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/sensor_register_list" />
+            <!-- 다섯 번째 상자 -->
+            <View
+                android:layout_width="350dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/sensor_register_list" />
+            <!-- 여섯 번째 상자 -->
+            <View
+                android:layout_width="350dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/sensor_register_list" />
+            <!-- 일곱 번째 상자 -->
+            <View
+                android:layout_width="350dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/sensor_register_list" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

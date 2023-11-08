@@ -61,8 +61,7 @@
         android:layout_marginStart="20dp"
         android:text="@string/calendar"
         app:layout_constraintTop_toTopOf="@+id/plant_date"
-        app:layout_constraintStart_toEndOf="@+id/plant_date"
-        app:layout_marginStart="8dp" />
+        app:layout_constraintStart_toEndOf="@+id/plant_date" />
 
     <TextView
         android:id="@+id/plant_date_text_view"

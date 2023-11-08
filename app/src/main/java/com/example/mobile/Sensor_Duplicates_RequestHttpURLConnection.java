@@ -14,6 +14,7 @@ import java.net.URL;
 
 public class Sensor_Duplicates_RequestHttpURLConnection {
 
+
     public String request(String _url, ContentValues _params){
 
         // HttpURLConnection 참조 변수.

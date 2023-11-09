@@ -2,9 +2,11 @@ package com.example.mobile;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -18,7 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 public class RegisterPlantActivity extends Activity {
@@ -131,12 +137,80 @@ public class RegisterPlantActivity extends Activity {
         // 모든 조건이 충족되면 버튼을 활성화합니다.
     }
 
-    // TODO: 실제 앱에서는 여기에 데이터를 로컬 데이터베이스에 저장하거나 서버로 전송하는 코드를 작성해야 합니다.
     private void savePlantData() {
+        ContentValues values = new ContentValues();
         String plantName = editTextPlantName.getText().toString();
         String plantDate = textViewDate.getText().toString();
+        //todo 사용자 id 저장위치 확인후 변경
+        values.put("userId", "사용자 id");
+        values.put("plantName", plantName);
+        values.put("plantingDate", plantDate);
+
+
+        String url = api_url.REGISTPLANT.getValue();
+        NetworkTask networkTask = new NetworkTask(url , values);
+        networkTask.execute();
 
         Toast.makeText(this, "식물 이름: " + plantName + "\n심은 날짜: " + plantDate, Toast.LENGTH_SHORT).show();
     }
+
+
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public NetworkTask(String url, ContentValues values) {
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            PlantRegisterRequestHttpURLConnection requestHttpURLConnection = new PlantRegisterRequestHttpURLConnection();
+            try {
+                return requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            // 결과 처리
+            if (s != null) {
+                try {
+                    // JSON 문자열을 파싱하여 JSON 객체로 변환
+                    JSONObject jsonObject = new JSONObject(s);
+
+                    // JSON 객체에서 "message" 키의 값을 가져오기
+                    String message = jsonObject.optString("message", "");
+
+                    // "message" 값에 "성공하였습니다" 문자열이 포함되어 있는지 확인
+                    if (message.contains("식물정보가 성공적으로 추가되었습니다.")) {
+                        Intent intent = new Intent(RegisterPlantActivity.this, Plant_RegisterList.class);
+                        startActivity(intent); // 인텐트 실행
+                    }
+                    else{
+                    }
+
+                    // 서버로부터 받은 결과를 Toast 메시지로 표시
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    // JSON 파싱 오류 처리
+                }
+            }
+
+            else {
+                // 서버 요청 실패 시 메시지를 표시하거나 다른 처리를 수행할 수 있음
+                Toast.makeText(getApplicationContext(), "서버 요청 실패", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
 
 }

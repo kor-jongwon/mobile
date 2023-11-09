@@ -19,7 +19,7 @@ public class Plant_RegisterList extends Activity {
         // 여기에 화면 초기화 및 기타 동작을 설정할 수 있습니다.
         LinearLayout containerLayout = findViewById(R.id.container_layout);
 
-// 센서 리스트에서 요소 수를 가져온다고 가정
+        // 센서 리스트에서 요소 수를 가져온다고 가정
 
         //int sensorCount = getSensorCount();
         int sensorCount = 10;

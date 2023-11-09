@@ -131,6 +131,18 @@
             android:orientation="vertical"
             android:padding="10dp">
 
+            <!-- maxHeight 에서 최대 크기 조절  -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/plantsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:clipToPadding="false"
+                android:maxHeight="800dp"
+                android:padding="15dp"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="true" />
+
         </LinearLayout>
     </ScrollView>
 

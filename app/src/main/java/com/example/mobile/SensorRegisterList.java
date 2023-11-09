@@ -21,9 +21,9 @@ public class SensorRegisterList extends Activity {
 // 센서 리스트에서 요소 수를 가져온다고 가정
 
         //int sensorCount = getSensorCount();
-        int sensorCount = 10;
+        int plantCount = 10;
 
-        for (int i = 0; i < sensorCount; i++) {
+        for (int i = 0; i < plantCount; i++) {
             // 새로운 뷰를 인플레이트하고 설정
             View sensorView = getLayoutInflater().inflate(R.layout.sensor_item, null);
             // 이미지 뷰에 이미지 설정

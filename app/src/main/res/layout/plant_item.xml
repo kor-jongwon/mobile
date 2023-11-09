@@ -9,7 +9,7 @@
 
     <!-- 이미지 뷰 -->
     <ImageView
-        android:id="@+id/sensorImageView"
+        android:id="@+id/plantImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/default_plant_img"
@@ -23,7 +23,7 @@
 
         <!-- 센서 이름 -->
         <TextView
-            android:id="@+id/sensorNameTextView"
+            android:id="@+id/plantNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sensor Name"

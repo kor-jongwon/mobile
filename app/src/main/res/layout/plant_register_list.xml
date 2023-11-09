@@ -20,7 +20,7 @@
 
 
     <ImageButton
-        android:id="@+id/button_sensor_add"
+        android:id="@+id/button_plant_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -72,7 +72,7 @@
 
         <!-- 센서 제어 버튼 -->
         <Button
-            android:id="@+id/button_sensor"
+            android:id="@+id/button_plant"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -82,7 +82,7 @@
             android:gravity="center"
             android:paddingTop="5dp"
             android:text="센서 제어"
-            android:onClick="onAddButtonClick_SensorControl"
+            android:onClick="onAddButtonClick_PlantControl"
             android:textSize="12sp" />
 
         <!-- 통계 -->

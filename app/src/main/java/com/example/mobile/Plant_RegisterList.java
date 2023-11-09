@@ -22,11 +22,11 @@ public class Plant_RegisterList extends Activity {
         // 센서 리스트에서 요소 수를 가져온다고 가정
 
         //int sensorCount = getSensorCount();
-        int sensorCount = 10;
+        int plantCount = 10;
 
-        for (int i = 0; i < sensorCount; i++) {
+        for (int i = 0; i < plantCount; i++) {
             // 새로운 뷰를 인플레이트하고 설정
-            View sensorView = getLayoutInflater().inflate(R.layout.sensor_item, null);
+            View plantView = getLayoutInflater().inflate(R.layout.plant_item, null);
             // 이미지 뷰에 이미지 설정
             // 마진 설정
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -35,15 +35,15 @@ public class Plant_RegisterList extends Activity {
             );
             layoutParams.setMargins(0, 20, 0, 20); // 여기에서 마진을 조절하세요 (좌, 상, 우, 하)
 
-            sensorView.setLayoutParams(layoutParams);
-            ImageView sensorImageView = sensorView.findViewById(R.id.sensorImageView);
-            sensorImageView.setImageResource(R.drawable.default_plant_img);
+            plantView.setLayoutParams(layoutParams);
+            ImageView plantImageView = plantView.findViewById(R.id.plantImageView);
+            plantImageView.setImageResource(R.drawable.default_plant_img);
 
 // 센서 이름 설정
-            TextView sensorNameTextView = sensorView.findViewById(R.id.sensorNameTextView);
-            sensorNameTextView.setText("Sensor Name");
+            TextView plantNameTextView = plantView.findViewById(R.id.plantNameTextView);
+            plantNameTextView.setText("Plant Name");
             // 뷰를 컨테이너 레이아웃에 추가
-            containerLayout.addView(sensorView);
+            containerLayout.addView(plantView);
         }
 
 

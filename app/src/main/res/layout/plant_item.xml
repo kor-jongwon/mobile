@@ -19,15 +19,25 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginStart="10dp">
 
         <!-- 센서 이름 -->
         <TextView
             android:id="@+id/plantNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sensor Name"
+            android:text="식물 이름"
+            android:layout_marginTop="8dp"
             android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="심은 날짜 "
+            android:layout_marginTop="8dp"
+            android:textSize="18sp"
+            />
 
         <!-- 센서 정보 등 다른 텍스트 필드들 추가 -->
         <!-- 예시: -->

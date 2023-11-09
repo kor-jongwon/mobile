@@ -53,8 +53,13 @@
             <!-- 필요한 인텐트 필터 또는 설정 추가 -->
         </activity>
         <activity
+            android:name=".Plant_RegisterList"
+            android:label="식물 리스트" >
+        </activity>
+
+        <activity
             android:name=".RegisterPlantActivity"
-            android:label="식물 등록" >
+            android:label="식물 등록">
         </activity>
         <activity
             android:name=".SensorRegisterList"
@@ -62,14 +67,9 @@
 
         </activity>
 
-        <activity android:name=".SensorRegisterActivity">
-            <!-- intent-filter 및 다른 설정 (선택 사항) -->
+        <activity android:name=".SensorRegisterActivity"
+            android:label="센서 등록">
         </activity>
-
-        <activity android:name=".SensorControlActivity">
-            <!-- intent-filter 및 다른 설정 (선택 사항) -->
-        </activity>
-
 
         <!-- 아래의 receiver 요소를 추가합니다. -->
         <receiver

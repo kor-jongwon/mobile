@@ -233,11 +233,11 @@ public class LoginActivity extends AppCompatActivity {
                     // "message" 값에 "성공하였습니다" 문자열이 포함되어 있는지 확인
                     if (message.contains("성공하였습니다")) {
                         if (message.contains("로그인에 성공하였습니다. 그러나 식물 데이터가 없습니다.")) {
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, Plant_RegisterList.class);
                             startActivity(intent); // 인텐트 실행
                         }
                         else{
-                            Intent intent = new Intent(LoginActivity.this, RegisterPlantActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, Plant_RegisterList.class);
                             startActivity(intent); // 인텐트 실행
                         }
                     }

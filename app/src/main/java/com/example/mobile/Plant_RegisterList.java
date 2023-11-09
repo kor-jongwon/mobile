@@ -7,13 +7,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class SensorRegisterList extends Activity {
+public class Plant_RegisterList extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sensor_register_list); // 레이아웃 파일의 이름에 맞게 변경해야 합니다.
+        setContentView(R.layout.plant_register_list); // 레이아웃 파일의 이름에 맞게 변경해야 합니다.
 
         // 여기에 화면 초기화 및 기타 동작을 설정할 수 있습니다.
         LinearLayout containerLayout = findViewById(R.id.container_layout);
@@ -45,25 +46,35 @@ public class SensorRegisterList extends Activity {
             containerLayout.addView(sensorView);
         }
 
+
     }
-    public void onAddButtonClick_Home(View view) {
+
+    // 센서 추가 버튼이 클릭됐을 때 호출될 메소드
+    public void onAddButtonClick_Register(View view) {
 
         // 현재의 액티비티 컨텍스트인 SensorRegisterList에서 시작하여 SensorRegisterActivity로 인텐트를 생성
-        Intent intent = new Intent(SensorRegisterList.this,  Plant_RegisterList.class);
+        Intent intent = new Intent(Plant_RegisterList.this, RegisterPlantActivity.class);
 
         // 인텐트를 시작하여 새 액티비티로 이동
         startActivity(intent);
 
         // 버튼 클릭 시 실행할 로직
     }
-    // 센서 추가 버튼이 클릭됐을 때 호출될 메소드
-    public void onAddButtonClick_Register(View view) {
+    public void onAddButtonClick_SensorControl(View view) {
 
         // 현재의 액티비티 컨텍스트인 SensorRegisterList에서 시작하여 SensorRegisterActivity로 인텐트를 생성
-        Intent intent = new Intent(SensorRegisterList.this, SensorRegisterActivity.class);
+        Intent intent = new Intent(Plant_RegisterList.this, SensorRegisterList.class);
 
         // 인텐트를 시작하여 새 액티비티로 이동
         startActivity(intent);
+
+        // 버튼 클릭 시 실행할 로직
+    }
+
+    public void onAddButtonClick_Home(View view) {
+
+        // 현재의 액티비티 컨텍스트인 SensorRegisterList에서 시작하여 SensorRegisterActivity로 인텐트를 생성
+        Toast.makeText(this, "홈 화면 입니다!", Toast.LENGTH_SHORT).show();
 
         // 버튼 클릭 시 실행할 로직
     }

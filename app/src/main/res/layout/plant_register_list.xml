@@ -13,8 +13,8 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:drawableLeft="@drawable/icons8_control"
-        android:text=" 센서 이름 "
+        android:drawableLeft="@drawable/icons_plant"
+        android:text=" 식물 이름"
         android:textColor="#000000"
         android:textSize="20sp" />
 
@@ -66,8 +66,8 @@
             android:drawableTop="@drawable/icons_plant"
             android:gravity="center"
             android:paddingTop="5dp"
-            android:text="홈"
             android:onClick="onAddButtonClick_Home"
+            android:text="홈"
             android:textSize="12sp" />
 
         <!-- 센서 제어 버튼 -->
@@ -82,6 +82,7 @@
             android:gravity="center"
             android:paddingTop="5dp"
             android:text="센서 제어"
+            android:onClick="onAddButtonClick_SensorControl"
             android:textSize="12sp" />
 
         <!-- 통계 -->

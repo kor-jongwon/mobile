@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,6 +39,12 @@ public class PlantActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.icons_plant);
 
         addPlantButton = findViewById(R.id.addPlantButton);
+
+        // ActionBar 설정 및 뒤로 가기 버튼 활성화
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로 가기 버튼 활성화
+        }
         addPlantButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,5 +95,11 @@ public class PlantActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public boolean onSupportNavigateUp() {
+        // 뒤로 가기 버튼을 클릭했을 때의 동작을 정의합니다.
+        Intent intent = new Intent(PlantActivity.this, Plant_RegisterList.class);
+        startActivity(intent);
+        return true;
     }
 }

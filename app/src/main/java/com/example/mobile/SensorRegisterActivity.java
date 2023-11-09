@@ -133,6 +133,7 @@ public class SensorRegisterActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             String result;
+            //에러 발생
             Sensor_Duplicates_RequestHttpURLConnection sensorRequestHttpURLConnection = new Sensor_Duplicates_RequestHttpURLConnection();
             result = sensorRequestHttpURLConnection.request(url, values);
             return result;

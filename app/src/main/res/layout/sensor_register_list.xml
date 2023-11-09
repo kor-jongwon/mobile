@@ -27,7 +27,7 @@
         android:layout_marginStart="214dp"
         android:layout_toEndOf="@id/textView_name"
         android:background="@android:color/transparent"
-        android:onClick="onAddButtonClick"
+        android:onClick="onAddButtonClick_Register"
         android:src="@drawable/ic_sensor_add" />
 
     <EditText
@@ -67,6 +67,7 @@
             android:gravity="center"
             android:paddingTop="5dp"
             android:text="홈"
+            android:onClick="onAddButtonClick_Home"
             android:textSize="12sp" />
 
         <!-- 센서 제어 버튼 -->
@@ -122,56 +123,12 @@
         android:layout_below="@id/search_field">
 
         <LinearLayout
+            android:id="@+id/container_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="10dp">
-
-            <!-- 여기에 사각형 View들을 추가합니다. -->
-            <!-- 첫 번째 상자 -->
-            <View
-                android:layout_width="350dp"
-                android:layout_height="100dp"
-                android:layout_margin="8dp"
-                android:background="@drawable/sensor_register_list" />
-            <!-- 두 번째 상자 -->
-            <View
-                android:layout_width="350dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/sensor_register_list" />
-            <!-- 세 번째 상자 -->
-            <View
-                android:layout_width="350dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/sensor_register_list" />
-            <!-- 네 번째 상자 -->
-            <View
-                android:layout_width="350dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/sensor_register_list" />
-            <!-- 다섯 번째 상자 -->
-            <View
-                android:layout_width="350dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/sensor_register_list" />
-            <!-- 여섯 번째 상자 -->
-            <View
-                android:layout_width="350dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/sensor_register_list" />
-            <!-- 일곱 번째 상자 -->
-            <View
-                android:layout_width="350dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/sensor_register_list" />
-
 
         </LinearLayout>
     </ScrollView>

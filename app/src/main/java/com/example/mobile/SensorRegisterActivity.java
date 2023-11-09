@@ -1,6 +1,7 @@
 package com.example.mobile;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONException;
@@ -46,6 +48,12 @@ public class SensorRegisterActivity extends AppCompatActivity {
 
         btn_duplicated.setEnabled(false);
         btn_register.setEnabled(false);
+
+        // ActionBar 설정 및 뒤로 가기 버튼 활성화
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로 가기 버튼 활성화
+        }
         editTextName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -119,6 +127,13 @@ public class SensorRegisterActivity extends AppCompatActivity {
                 networkTask.execute();
             }
         });
+
+    }
+    public boolean onSupportNavigateUp() {
+        // 뒤로 가기 버튼을 클릭했을 때의 동작을 정의합니다.
+        Intent intent = new Intent(SensorRegisterActivity.this, SensorRegisterList.class);
+        startActivity(intent);
+        return true;
     }
     public class duplicated_NetworkTask extends AsyncTask<Void, Void, String> {
 
@@ -188,4 +203,5 @@ public class SensorRegisterActivity extends AppCompatActivity {
             }
         }
     }
+
 }

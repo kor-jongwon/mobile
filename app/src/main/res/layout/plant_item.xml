@@ -12,7 +12,7 @@
         android:id="@+id/plantImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/default_plant_img"
+        android:src="@drawable/register_image"
         android:scaleType="centerCrop" />
 
     <!-- 센서 정보를 표시할 수 있는 레이아웃 -->

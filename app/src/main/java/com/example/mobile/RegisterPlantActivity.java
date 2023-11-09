@@ -86,7 +86,7 @@ public class RegisterPlantActivity extends Activity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        String selectedDate = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
+                        String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                         textViewDate.setText(selectedDate);
                         validateInputs(); // 날짜가 설정된 후 검증
                     }

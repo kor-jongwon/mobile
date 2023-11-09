@@ -6,7 +6,6 @@ public enum api_url {
     IDDUPLICATE("http://3.36.113.184:30001/duplicated"),
     FINDID("http://3.36.113.184:30001/findid"),
     SENSORDUPLICATE("http://3.36.113.184:30001/duplicated_sensor_id"),
-
     REGISTPLANT("http://3.36.113.184:30001/addplant");
 
     private final String value;

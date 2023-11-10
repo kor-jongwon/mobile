@@ -1,105 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="48dp">
+    android:padding="16dp"
+    android:background="#FFFF">
 
-    <!-- Toolbar 추가 -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+    <TextView
+        android:id="@+id/textView_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/icons_plant"
+        android:text=" 식물 상세"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 풀 이미지 -->
     <ImageView
         android:id="@+id/plantImageView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="48dp"
-        android:src="@drawable/ic_launcher_foreground"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="12dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/register_image"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:scaleType="centerCrop" />
+        app:layout_constraintTop_toBottomOf="@id/textView_name" />
 
-    <!-- 식물 정보 텍스트뷰들 -->
-    <TextView
-        android:id="@+id/plantNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="식물 이름 : ○○○○"
-        android:textSize="24sp"
-        android:layout_marginTop="48dp"
-        app:layout_constraintTop_toBottomOf="@id/plantImageView"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/plantDateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="심은 날짜 : 2023/07/01"
-        android:textSize="24sp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/plantNameTextView"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/plantNumberTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="전화번호 : xxx-xxx1234"
-        android:textSize="24sp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/plantDateTextView"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <!-- 환경 정보 텍스트뷰들 -->
-    <TextView
-        android:id="@+id/temperatureTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="현재 온도 : 27°C"
-        android:textSize="24sp"
-        android:layout_marginTop="48dp"
-        app:layout_constraintTop_toBottomOf="@id/plantNumberTextView"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/humidityTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="현재 습도 : 60%"
-        android:textSize="24sp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/temperatureTextView"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/moistureTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="땅 습도 : 70%"
-        android:textSize="24sp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/humidityTextView"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <!-- 메모 텍스트 -->
-    <EditText
-        android:id="@+id/memoEditText"
+    <!-- 그룹 1 (식물 정보) -->
+    <FrameLayout
+        android:id="@+id/plantInfoCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:textSize="24sp"
-        android:hint="메모 :"
-        android:background="@android:drawable/editbox_background"
-        app:layout_constraintTop_toBottomOf="@id/moistureTextView"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:padding="2dp"
+        android:background="@drawable/rounded_border"
+        app:layout_constraintTop_toBottomOf="@id/plantImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="337dp"
+            android:layout_height="136dp"
+            android:layout_margin="15dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/plantNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="식물 이름 : ○○○○"
+                    android:textSize="18sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/plantImageView" />
+
+                <TextView
+                    android:id="@+id/plantDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="심은 날짜 : 2023-07-01"
+                    android:textSize="18sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/plantNameTextView" />
+
+                <TextView
+                    android:id="@+id/plantNumberTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="센서 번호 : xxx-xxx1234"
+                    android:textSize="18sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/plantDateTextView" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+    <!-- 그룹 2 (센서 정보) -->
+
+    <!-- 메모 텍스트 -->
+    <!-- 그룹 1 (메모 정보) -->
+    <FrameLayout
+        android:id="@+id/sensorInfoCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_border"
+        android:padding="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/plantInfoCard">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/temperatureTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="현재 온도 : 27°C"
+                    android:textSize="17sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/plantNumberTextView" />
+
+                <TextView
+                    android:id="@+id/humidityTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="현재 습도 : 60%"
+                    android:textSize="17sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/temperatureTextView" />
+
+                <TextView
+                    android:id="@+id/moistureTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="땅 습도 : 70%"
+                    android:textSize="17sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/humidityTextView" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:background="@drawable/rounded_border"
+        app:layout_constraintTop_toBottomOf="@id/sensorInfoCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sensorInfoCard">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/memoEditText"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="메모 :"
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/moistureTextView" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

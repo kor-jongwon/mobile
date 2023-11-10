@@ -5,29 +5,41 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_margin="8dp"
-    android:background="@drawable/sensor_register_list">
+    android:background="@drawable/rounded_border">
 
     <!-- 이미지 뷰 -->
     <ImageView
-        android:id="@+id/sensorImageView"
+        android:id="@+id/plantImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/default_plant_img"
+        android:src="@drawable/register_image"
+        android:layout_margin="20dp"
         android:scaleType="centerCrop" />
 
     <!-- 센서 정보를 표시할 수 있는 레이아웃 -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="20dp">
 
         <!-- 센서 이름 -->
+
         <TextView
-            android:id="@+id/sensorNameTextView"
+            android:id="@+id/plantNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sensor Name"
+            android:layout_marginTop="10dp"
+            android:text="식물 이름"
             android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="심은 날짜 "
+            android:layout_marginTop="8dp"
+            android:textSize="18sp"
+            />
 
         <!-- 센서 정보 등 다른 텍스트 필드들 추가 -->
         <!-- 예시: -->

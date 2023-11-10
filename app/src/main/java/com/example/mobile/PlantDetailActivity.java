@@ -21,7 +21,6 @@ public class PlantDetailActivity extends AppCompatActivity {
     private TextView humidityTextView;
     private TextView moistureTextView;
     private EditText memoEditText;
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,35 +28,8 @@ public class PlantDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plants_detail); // xml 파일 이름
 
         initializeViews();
-
         // API에서 정보를 불러온다고 가정
         fetchPlantDetails();
-
-        // 툴바 설정
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        // 툴바의 왼쪽에 홈으로 돌아가는 버튼
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // 현재 액티비티 종료
-            }
-        });
-
-        // 툴바의 오른쪽에 수정 버튼 (예: menu item으로 가정)
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.action_edit) {
-                    // 수정 코드 작성
-                    editPlantDetails();
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
     private void initializeViews() {
@@ -69,7 +41,6 @@ public class PlantDetailActivity extends AppCompatActivity {
         humidityTextView = findViewById(R.id.humidityTextView);
         moistureTextView = findViewById(R.id.moistureTextView);
         memoEditText = findViewById(R.id.memoEditText);
-        toolbar = findViewById(R.id.toolbar); // toolbar의 id를 가정함
     }
 
     // API로부터 정보를 불러와 각 뷰에 정보를 설정하는 가상의 메서드

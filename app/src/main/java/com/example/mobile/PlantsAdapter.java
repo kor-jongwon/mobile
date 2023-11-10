@@ -26,7 +26,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     @NonNull
     @Override
     public PlantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_plant, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.plant_item, parent, false);
         return new PlantViewHolder(view);
     }
 

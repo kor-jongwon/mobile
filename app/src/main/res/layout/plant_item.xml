@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_margin="8dp"
-    android:background="@drawable/sensor_register_list">
+    android:background="@drawable/rounded_border">
 
     <!-- 이미지 뷰 -->
     <ImageView
@@ -13,6 +13,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/register_image"
+        android:layout_margin="20dp"
         android:scaleType="centerCrop" />
 
     <!-- 센서 정보를 표시할 수 있는 레이아웃 -->
@@ -20,15 +21,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginStart="10dp">
+        android:layout_margin="20dp">
 
         <!-- 센서 이름 -->
+
         <TextView
             android:id="@+id/plantNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="식물 이름"
-            android:layout_marginTop="8dp"
             android:textSize="18sp" />
 
         <TextView

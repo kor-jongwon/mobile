@@ -7,7 +7,7 @@
     android:background="#FFFF">
 
     <TextView
-        android:id="@+id/sensor_register.textView_id"
+        android:id="@+id/sensor_register_textView_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -17,7 +17,7 @@
         />
 
     <EditText
-        android:id="@+id/sensor_register.editText_id"
+        android:id="@+id/sensor_register_editText_id"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
@@ -30,7 +30,7 @@
         android:textColorHint="#A0A0A0"
         />
     <TextView
-        android:id="@+id/sensor_register.tv_error_Id"
+        android:id="@+id/sensor_register_tv_error_Id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FF0000"
@@ -39,7 +39,7 @@
         />
 
     <Button
-        android:id="@+id/sensor_register.buttonCheckDuplicate"
+        android:id="@+id/sensor_register_buttonCheckDuplicate"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_gravity="right"
@@ -53,7 +53,7 @@
         />
 
     <TextView
-        android:id="@+id/sensor_register.textView_name"
+        android:id="@+id/sensor_register_textView_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -62,7 +62,7 @@
         android:textColor="#000000" />
 
     <EditText
-        android:id="@+id/sensor_register.editText_name"
+        android:id="@+id/sensor_register_editText_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
@@ -74,7 +74,7 @@
         android:paddingLeft="10dp" />
 
     <TextView
-        android:id="@+id/sensor_register.tv_error_name"
+        android:id="@+id/sensor_register_tv_error_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FF0000"

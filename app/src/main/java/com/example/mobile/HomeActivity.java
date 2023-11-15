@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
     }
     private void launchSensorRegisterActivity() {
         // "아이디 찾기" 텍스트를 클릭했을 때 호출되는 메서드
-        Intent intent = new Intent(this, SensorRegisterActivity.class);
+        Intent intent = new Intent(this, SensorRegisterList.class);
         startActivity(intent);
     }
 }

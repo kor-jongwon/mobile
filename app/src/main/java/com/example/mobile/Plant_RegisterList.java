@@ -49,6 +49,15 @@ public class Plant_RegisterList extends Activity {
 
     }
 
+    // onAddButtonClick_PlantControl 메소드 추가
+    public void onAddButtonClick_PlantControl(View view) {
+        // 현재의 액티비티 컨텍스트인 Plant_RegisterList에서 시작하여 SensorRegisterList로 인텐트를 생성
+        Intent intent = new Intent(Plant_RegisterList.this, SensorRegisterList.class);
+
+        // 인텐트를 시작하여 새 액티비티로 이동
+        startActivity(intent);
+    }
+
     // 센서 추가 버튼이 클릭됐을 때 호출될 메소드
     public void onAddButtonClick_Register(View view) {
 

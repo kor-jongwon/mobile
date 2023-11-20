@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class SensorRegisterActivity extends AppCompatActivity {
     public   EditText editTextName,editTextId;
     public TextView  tv_error_id, tv_error_name;
@@ -28,6 +30,7 @@ public class SensorRegisterActivity extends AppCompatActivity {
 
     public static boolean idDuplicated;
 
+    public static ArrayList<String> sensorList = new ArrayList<>();
 
 
     @Override
@@ -79,6 +82,7 @@ public class SensorRegisterActivity extends AppCompatActivity {
                     tv_error_name.setVisibility(View.GONE);
                     editTextName.setBackgroundResource(R.drawable.green_edittext); // 흰색 배경
                 }
+                checkInputs();
             }
         });
 
@@ -112,8 +116,10 @@ public class SensorRegisterActivity extends AppCompatActivity {
                     tv_error_id.setVisibility(View.GONE);
                     editTextId.setBackgroundResource(R.drawable.green_edittext);
                 }
+                checkInputs();
             }
         });
+
         btn_duplicated.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,8 +133,29 @@ public class SensorRegisterActivity extends AppCompatActivity {
                 networkTask.execute();
             }
         });
-
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SensorRegisterActivity.this, SensorRegisterList.class);
+                // editTextName에서 센서 이름을 가져와 Intent에 추가
+                String sensorName = editTextName.getText().toString();
+                sensorList.add(sensorName);
+                startActivity(intent);
+            }
+        });
     }
+
+    private void checkInputs() {
+        String sensorName = editTextName.getText().toString();
+        String sensorId = editTextId.getText().toString();
+
+        if (!sensorName.isEmpty() && !sensorId.isEmpty() && idDuplicated) {
+            btn_register.setEnabled(true);
+        } else {
+            btn_register.setEnabled(false);
+        }
+    }
+
     public boolean onSupportNavigateUp() {
         // 뒤로 가기 버튼을 클릭했을 때의 동작을 정의합니다.
         Intent intent = new Intent(SensorRegisterActivity.this, SensorRegisterList.class);

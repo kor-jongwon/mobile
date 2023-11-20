@@ -1,5 +1,7 @@
 package com.example.mobile;
 
+import static com.example.mobile.SensorRegisterActivity.sensorList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +10,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class SensorRegisterList extends Activity {
+import java.util.ArrayList;
 
+public class SensorRegisterList extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sensor_register_list); // 레이아웃 파일의 이름에 맞게 변경해야 합니다.
+
+        Intent intent = getIntent();
+        // Intent에서 센서 이름을 가져오기
+        String sensorName = intent.getStringExtra("sensorName");
 
         // 여기에 화면 초기화 및 기타 동작을 설정할 수 있습니다.
         LinearLayout containerLayout = findViewById(R.id.container_layout);
@@ -21,9 +28,11 @@ public class SensorRegisterList extends Activity {
 // 센서 리스트에서 요소 수를 가져온다고 가정
 
         //int sensorCount = getSensorCount();
-        int plantCount = 10;
+        //int plantCount = 2;
 
-        for (int i = 0; i < plantCount; i++) {
+        int sensorListLength = sensorList.size();
+
+        for (int i = 0; i < sensorListLength; i++) {
             // 새로운 뷰를 인플레이트하고 설정
             View sensorView = getLayoutInflater().inflate(R.layout.sensor_item, null);
             // 이미지 뷰에 이미지 설정
@@ -38,9 +47,11 @@ public class SensorRegisterList extends Activity {
             ImageView sensorImageView = sensorView.findViewById(R.id.sensorImageView);
             sensorImageView.setImageResource(R.drawable.default_plant_img);
 
-// 센서 이름 설정
-            TextView sensorNameTextView = sensorView.findViewById(R.id.sensorNameTextView);
-            sensorNameTextView.setText("Sensor Name");
+            // 센서 이름 설정
+            TextView sensorNameTextView = sensorView.findViewById(R.id.sensor_register_editText_name);
+            // 가져온 센서 이름 설정
+            sensorNameTextView.setText(sensorList.get(i));
+
             // 뷰를 컨테이너 레이아웃에 추가
             containerLayout.addView(sensorView);
         }

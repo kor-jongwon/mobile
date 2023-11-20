@@ -23,9 +23,11 @@
 
         <!-- 센서 이름 -->
         <TextView
-            android:id="@+id/sensorNameTextView"
+            android:id="@+id/sensor_register_editText_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
             android:text="Sensor Name"
             android:textSize="18sp" />
 

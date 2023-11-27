@@ -27,6 +27,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterPlantActivity extends Activity {
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -142,11 +144,8 @@ public class RegisterPlantActivity extends Activity {
         String plantName = editTextPlantName.getText().toString();
         String plantDate = textViewDate.getText().toString();
 
-        // 임시로 사용자 ID 설정
-        String userId = "사용자ID"; // 실제 사용자 ID를 설정해야 합니다.
-
-        ContentValues values = new ContentValues();
-        values.put("userId", userId);
+        // Map으로 데이터를 저장합니다.
+        Map<String, String> values = new HashMap<>();
         values.put("plantName", plantName);
         values.put("plantingDate", plantDate);
 
@@ -167,12 +166,12 @@ public class RegisterPlantActivity extends Activity {
     public class NetworkTask extends AsyncTask<Void, Void, String> {
 
         private String url;
-        private ContentValues values;
+        private Map<String, String> values;
         private byte[] imageData;
         private String imageName;
 
         // 생성자에서 이미지 데이터와 파일 이름을 추가로 받습니다.
-        public NetworkTask(String url, ContentValues values, byte[] imageData, String imageName) {
+        public NetworkTask(String url, Map<String, String> values, byte[] imageData, String imageName) {
             this.url = url;
             this.values = values;
             this.imageData = imageData;

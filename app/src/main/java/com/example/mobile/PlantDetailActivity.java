@@ -1,15 +1,21 @@
 package com.example.mobile;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlantDetailActivity extends AppCompatActivity {
 
@@ -21,15 +27,30 @@ public class PlantDetailActivity extends AppCompatActivity {
     private TextView humidityTextView;
     private TextView moistureTextView;
     private EditText memoEditText;
+    private Button buttonEdit;
+    private Button buttonDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plants_detail); // xml 파일 이름
+        setContentView(R.layout.activity_plants_detail);
 
         initializeViews();
-        // API에서 정보를 불러온다고 가정
         fetchPlantDetails();
+
+        buttonEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editPlantDetails();
+            }
+        });
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deletePlantDetails();
+            }
+        });
     }
 
     private void initializeViews() {
@@ -41,38 +62,61 @@ public class PlantDetailActivity extends AppCompatActivity {
         humidityTextView = findViewById(R.id.humidityTextView);
         moistureTextView = findViewById(R.id.moistureTextView);
         memoEditText = findViewById(R.id.memoEditText);
+        buttonEdit = findViewById(R.id.button_edit);
+        buttonDelete = findViewById(R.id.button_delete);
     }
 
-    // API로부터 정보를 불러와 각 뷰에 정보를 설정하는 가상의 메서드
     private void fetchPlantDetails() {
-        // 예: API 응답으로부터 식물의 정보를 가져왔다고 가정
-        String plantName = "○○○○";
-        String plantDate = "2023/07/01";
-        String plantNumber = "xxx-xxx1234";
-        String temperature = "27°C";
-        String humidity = "60%";
-        String moisture = "70%";
-        String memo = "메모 내용";
+        //todo 식물 정보 불러오기 로직
 
-        // 뷰에 정보 설정
-        plantNameTextView.setText("식물 이름 : " + plantName);
-        plantDateTextView.setText("심은 날짜 : " + plantDate);
-        plantNumberTextView.setText("전화번호 : " + plantNumber);
-        temperatureTextView.setText("현재 온도 : " + temperature);
-        humidityTextView.setText("현재 습도 : " + humidity);
-        moistureTextView.setText("땅 습도 : " + moisture);
-        memoEditText.setText(memo);
     }
 
-    // 식물 정보를 수정하는 가상의 메서드
     private void editPlantDetails() {
-        // 여기에 수정 로직 작성
-        // 예: 메모 내용을 수정하게 되면 API 호출로 정보 업데이트
+        UpdatePlant_RequestHttpURLConnection httpURLConnection = new UpdatePlant_RequestHttpURLConnection();
+
+        String url = api_url.UPDATEPLANT.getValue();
+        Map<String, String> params = new HashMap<>();
+        params.put("plantId", "식물 ID");
+        params.put("newPlantData", "새로운 식물 데이터");
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                return httpURLConnection.requestPost(url, params);
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (result != null) {
+                    Toast.makeText(PlantDetailActivity.this, "식물 정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PlantDetailActivity.this, "수정 실패", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_plant_detail, menu);
-        return true;
+    private void deletePlantDetails() {
+        DeletePlant_RequestHttpURLConnection httpURLConnection = new DeletePlant_RequestHttpURLConnection();
+
+        String url = api_url.DELETEPLANT.getValue();
+        Map<String, String> params = new HashMap<>();
+        params.put("plantId", "식물 ID");
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                return httpURLConnection.requestDelete(url, params);
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (result != null) {
+                    Toast.makeText(PlantDetailActivity.this, "식물이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PlantDetailActivity.this, "삭제 실패", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 }

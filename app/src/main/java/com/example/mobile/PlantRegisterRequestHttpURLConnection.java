@@ -1,92 +1,70 @@
 package com.example.mobile;
-
-import android.content.ContentValues;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Map;
 
 public class PlantRegisterRequestHttpURLConnection {
-    public String request(String _url, ContentValues _params) throws UnsupportedEncodingException {
-        // HttpURLConnection 참조 변수.
-        HttpURLConnection urlConn = null;
-        // URL 뒤에 붙여서 보낼 파라미터.
-        StringBuffer sbParams = new StringBuffer();
-        // 보낼 데이터가 있을 때 파라미터를 조립하는 과정.
-        if (_params != null) {
-            // 파라미터가 두 개 이상이면 파라미터 연결에 &가 필요하므로 스위칭할 변수 생성.
-            boolean isAnd = false;
-            // 파라미터 키와 값.
-            String key;
-            String value;
 
-            for (Map.Entry<String, Object> parameter : _params.valueSet()) {
-                key = parameter.getKey();
-                value = parameter.getValue().toString();
+    public String request(String _url, Map<String, String> _params, byte[] imageData, String fileName) throws IOException {
+        // 멀티파트 폼 데이터의 경계 문자열
+        String boundary = "----PlantAppBoundary" + System.currentTimeMillis();
+        String LINE_FEED = "\r\n";
 
-                // 파라미터가 두 개 이상일 때, 파라미터 사이에 &를 붙인다.
-                if (isAnd)
-                    sbParams.append("&");
+        URL url = new URL(_url);
+        HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+        urlConn.setUseCaches(false);
+        urlConn.setDoOutput(true); // POST를 사용하기 위해 설정
+        urlConn.setDoInput(true);
+        urlConn.setRequestMethod("POST");
+        urlConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
-                sbParams.append(key).append("=").append(URLEncoder.encode(value, "UTF-8"));
+        OutputStream outputStream = urlConn.getOutputStream();
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
 
-                // 파라미터가 두 개 이상이면 isAnd를 true로 변경하고 다음 루프에서 &를 붙인다.
-                if (!isAnd)
-                    if (_params.size() >= 2)
-                        isAnd = true;
-            }
+        // 텍스트 파라미터 추가
+        for (Map.Entry<String, String> entry : _params.entrySet()) {
+            writer.append("--").append(boundary).append(LINE_FEED);
+            writer.append("Content-Disposition: form-data; name=\"").append(entry.getKey()).append("\"").append(LINE_FEED);
+            writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
+            writer.append(LINE_FEED);
+            writer.append(entry.getValue()).append(LINE_FEED);
+            writer.flush();
         }
 
-        // HttpURLConnection을 통해 web의 데이터를 가져온다.
-        try {
-            URL url = new URL(_url);
-            urlConn = (HttpURLConnection) url.openConnection();
+        // 이미지 파일 데이터 추가
+        writer.append("--").append(boundary).append(LINE_FEED);
+        writer.append("Content-Disposition: form-data; name=\"image\"; filename=\"").append(fileName).append("\"").append(LINE_FEED);
+        writer.append("Content-Type: ").append("image/jpeg").append(LINE_FEED);
+        writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
+        writer.append(LINE_FEED);
+        writer.flush();
 
-            // urlConn 설정.
-            urlConn.setRequestMethod("POST"); // URL 요청에 대한 메소드 설정 : POST.
-            urlConn.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-Charset 설정.
-            urlConn.setRequestProperty("Context-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+        outputStream.write(imageData);
+        outputStream.flush();
 
-            // parameter 전달 및 데이터 읽어오기.
-            String strParams = sbParams.toString(); // sbParams에 정리한 파라미터들을 스트링으로 변환.
-            OutputStream os = urlConn.getOutputStream();
-            os.write(strParams.getBytes("UTF-8")); // 출력 스트림에 출력.
-            os.flush(); // 출력 스트림을 비우고 버퍼링된 모든 출력 바이트를 강제 실행.
-            os.close(); // 출력 스트림을 닫고 모든 시스템 자원을 해제.
+        writer.append(LINE_FEED);
+        writer.flush();
 
-            // 연결 요청 확인.
-            // 실패 시 null을 리턴하고 메소드를 종료.
-            if (urlConn.getResponseCode() != HttpURLConnection.HTTP_OK)
-                return "Server Error: " + urlConn.getResponseCode();
+        // 요청 종료
+        writer.append("--").append(boundary).append("--").append(LINE_FEED);
+        writer.close();
 
-            // 읽어온 결과물 리턴.
-            // 요청한 URL의 출력물을 BufferedReader로 받는다.
-            BufferedReader reader = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), "UTF-8"));
-
-            // 출력물의 라인과 그 합에 대한 변수.
+        // 서버 응답 처리
+        StringBuilder response = new StringBuilder();
+        int responseCode = urlConn.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
             String line;
-            String page = "";
-
-            // 라인을 받아와 합친다.
-            while ((line = reader.readLine()) != null){
-                page += line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
             }
-
-            return page;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (urlConn != null)
-                urlConn.disconnect();
+            reader.close();
+        } else {
+            throw new IOException("Server returned non-OK status: " + responseCode);
         }
 
-        return "Error: Failed to connect to the server";
+        urlConn.disconnect();
+        return response.toString();
     }
 }

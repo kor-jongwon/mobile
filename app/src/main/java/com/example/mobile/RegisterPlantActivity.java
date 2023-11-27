@@ -23,6 +23,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
@@ -138,20 +139,28 @@ public class RegisterPlantActivity extends Activity {
     }
 
     private void savePlantData() {
-        ContentValues values = new ContentValues();
         String plantName = editTextPlantName.getText().toString();
         String plantDate = textViewDate.getText().toString();
-        //todo 사용자 id 저장위치 확인후 변경
-        values.put("userId", "사용자 id");
+
+        // 임시로 사용자 ID 설정
+        String userId = "사용자ID"; // 실제 사용자 ID를 설정해야 합니다.
+
+        ContentValues values = new ContentValues();
+        values.put("userId", userId);
         values.put("plantName", plantName);
         values.put("plantingDate", plantDate);
 
+        // 이미지 데이터 준비
+        imageView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = imageView.getDrawingCache();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        byte[] imageData = bos.toByteArray();
+        imageView.setDrawingCacheEnabled(false);
 
-        String url = api_url.REGISTPLANT.getValue();
-        NetworkTask networkTask = new NetworkTask(url , values);
+        String url = api_url.REGISTPLANT.getValue(); // 서버 URL을 설정해야 합니다.
+        NetworkTask networkTask = new NetworkTask(url, values, imageData, "plant_image.jpg");
         networkTask.execute();
-
-        Toast.makeText(this, "식물 이름: " + plantName + "\n심은 날짜: " + plantDate, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -159,19 +168,26 @@ public class RegisterPlantActivity extends Activity {
 
         private String url;
         private ContentValues values;
+        private byte[] imageData;
+        private String imageName;
 
-        public NetworkTask(String url, ContentValues values) {
+        // 생성자에서 이미지 데이터와 파일 이름을 추가로 받습니다.
+        public NetworkTask(String url, ContentValues values, byte[] imageData, String imageName) {
             this.url = url;
             this.values = values;
+            this.imageData = imageData;
+            this.imageName = imageName;
         }
 
         @Override
         protected String doInBackground(Void... params) {
             PlantRegisterRequestHttpURLConnection requestHttpURLConnection = new PlantRegisterRequestHttpURLConnection();
             try {
-                return requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
+                // 수정된 request 메서드를 호출합니다. 이 메서드는 이미지와 텍스트 데이터를 모두 서버로 전송합니다.
+                return requestHttpURLConnection.request(url, values, imageData, imageName);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
             }
         }
 
@@ -182,30 +198,23 @@ public class RegisterPlantActivity extends Activity {
             // 결과 처리
             if (s != null) {
                 try {
-                    // JSON 문자열을 파싱하여 JSON 객체로 변환
                     JSONObject jsonObject = new JSONObject(s);
-
-                    // JSON 객체에서 "message" 키의 값을 가져오기
                     String message = jsonObject.optString("message", "");
 
-                    // "message" 값에 "성공하였습니다" 문자열이 포함되어 있는지 확인
-                    if (message.contains("식물정보가 성공적으로 추가되었습니다.")) {
+                    if (message.contains("식물 정보가 성공적으로 추가되었습니다.")) {
+                        // 다음 액티비티로 이동
                         Intent intent = new Intent(RegisterPlantActivity.this, Plant_RegisterList.class);
-                        startActivity(intent); // 인텐트 실행
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    } else {
+                        // 오류 메시지 처리
+                        Toast.makeText(getApplicationContext(), "등록 실패: " + message, Toast.LENGTH_LONG).show();
                     }
-                    else{
-                    }
-
-                    // 서버로부터 받은 결과를 Toast 메시지로 표시
-
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    // JSON 파싱 오류 처리
+                    Toast.makeText(getApplicationContext(), "JSON 파싱 오류", Toast.LENGTH_SHORT).show();
                 }
-            }
-
-            else {
-                // 서버 요청 실패 시 메시지를 표시하거나 다른 처리를 수행할 수 있음
+            } else {
                 Toast.makeText(getApplicationContext(), "서버 요청 실패", Toast.LENGTH_SHORT).show();
             }
         }

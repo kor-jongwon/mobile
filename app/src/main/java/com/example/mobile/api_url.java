@@ -6,12 +6,14 @@ public enum api_url {
     IDDUPLICATE("http://3.36.113.184:30001/duplicated"),
     FINDID("http://3.36.113.184:30001/findid"),
     SENSORDUPLICATE("http://3.36.113.184:30001/duplicated_sensor_id"),
+
+
+    PLANTDUPLICATE("http://3.36.113.184:30001/duplicatePlantName"),
     REGISTPLANT("http://3.36.113.184:30001/addplant"),
-    UPDATEPLANT("http://3.36.113.184:30001/updatePlant"),
-    GETPLANTS("http://3.36.113.184:30001/getPlantsBySessionUserId"),
     GETPLANT("http://3.36.113.184:30001/getPlantByName"),
-    DELETEPLANT("http://3.36.113.184:30001/deletePlant"),
-    PLANTDUPLICATE("http://3.36.113.184:30001/duplicatePlantName");
+    GETPLANTS("http://3.36.113.184:30001/getPlantsBySessionUserId"),
+    UPDATEPLANT("http://3.36.113.184:30001/updatePlant"),
+    DELETEPLANT("http://3.36.113.184:30001/deletePlant");
 
 
 

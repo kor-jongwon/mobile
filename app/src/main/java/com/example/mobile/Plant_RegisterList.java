@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ public class Plant_RegisterList extends Activity {
     private RecyclerView recyclerView;
     private PlantsAdapter adapter;
 
+    private Button addButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,7 @@ public class Plant_RegisterList extends Activity {
 
         recyclerView = findViewById(R.id.plantsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        addButton.findViewById(R.id.button_plant_add);
 
         adapter = new PlantsAdapter();
         adapter.setOnItemClickListener(new PlantsAdapter.OnItemClickListener() {
@@ -88,4 +92,22 @@ public class Plant_RegisterList extends Activity {
             }
         }
     }
+
+    public void onAddButtonClick_Register(View view) {
+        Intent intent = new Intent(Plant_RegisterList.this, RegisterPlantActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void onAddButtonClick_Home(View view) {
+        Intent intent = new Intent(Plant_RegisterList.this,  HomeActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void onAddButtonClick_SensorControl(View view) {
+        Intent intent = new Intent(Plant_RegisterList.this, SensorRegisterList.class);
+        startActivity(intent);
+    }
+
 }

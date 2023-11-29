@@ -10,27 +10,21 @@ import java.net.URL;
 import java.util.Map;
 
 public class UpdatePlant_RequestHttpURLConnection {
-    // 이 메서드는 URL과 파라미터를 받아서 서버에 POST 요청을 보내고 응답을 문자열로 반환합니다.
     public String requestPost(String _url, Map<String, String> _params) {
-        // HttpURLConnection 참조 변수.
         HttpURLConnection urlConn = null;
-
-        // 결과를 저장할 변수.
         StringBuilder sb = new StringBuilder();
 
         try {
             URL url = new URL(_url);
             urlConn = (HttpURLConnection) url.openConnection();
 
-            // [1-1]. urlConn 설정.
-            urlConn.setConnectTimeout(15000); // 연결 타임아웃 설정
-            urlConn.setReadTimeout(5000);     // 읽기 타임아웃 설정
-            urlConn.setRequestMethod("POST"); // 요청 방식 설정
-            urlConn.setDoInput(true);         // InputStream으로 서버로부터 응답을 받겠다는 옵션
-            urlConn.setDoOutput(true);        // OutputStream으로 POST 데이터를 넘겨주겠다는 옵션
-            urlConn.setUseCaches(false);      // 캐시 사용 안 함
+            urlConn.setConnectTimeout(15000);
+            urlConn.setReadTimeout(5000);
+            urlConn.setRequestMethod("POST"); // PUT 요청 대신 POST 사용
+            urlConn.setDoInput(true);
+            urlConn.setDoOutput(true);
+            urlConn.setUseCaches(false);
 
-            // [1-2]. 파라미터 전송
             OutputStream os = urlConn.getOutputStream();
             StringBuilder params = new StringBuilder();
 
@@ -43,14 +37,11 @@ public class UpdatePlant_RequestHttpURLConnection {
             os.flush();
             os.close();
 
-            // [1-3]. 연결 요청 확인
             if (urlConn.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 return null;
             }
 
-            // [1-4]. 읽어온 결과물 리턴
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), "UTF-8"));
-
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);

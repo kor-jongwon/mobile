@@ -9,7 +9,7 @@
 
     <!-- 이미지 뷰 -->
     <ImageView
-        android:id="@+id/plantImageView"
+        android:id="@+id/plantImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/register_image"
@@ -26,7 +26,7 @@
         <!-- 센서 이름 -->
 
         <TextView
-            android:id="@+id/plantNameTextView"
+            android:id="@+id/plantName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -34,6 +34,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/plantDating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="심은 날짜 "

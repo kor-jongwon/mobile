@@ -8,8 +8,10 @@ public enum api_url {
     SENSORDUPLICATE("http://3.36.113.184:30001/duplicated_sensor_id"),
     REGISTPLANT("http://3.36.113.184:30001/addplant"),
     UPDATEPLANT("http://3.36.113.184:30001/updatePlant"),
-    GETPLANTS("http://3.36.113.184:30001/getPlantsByUserId"),
-    DELETEPLANT("http://3.36.113.184:30001/deletePlant");
+    GETPLANTS("http://3.36.113.184:30001/getPlantsBySessionUserId"),
+    GETPLANT("http://3.36.113.184:30001/getPlantByName"),
+    DELETEPLANT("http://3.36.113.184:30001/deletePlant"),
+    PLANTDUPLICATE("http://3.36.113.184:30001/duplicatePlantName");
 
 
 

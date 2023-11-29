@@ -68,7 +68,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="337dp"
-            android:layout_height="136dp"
+            android:layout_height="120dp"
             android:layout_margin="15dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp">
@@ -98,16 +98,6 @@
                     android:textSize="18sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/plantNameTextView" />
-
-                <TextView
-                    android:id="@+id/plantNumberTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="센서 번호 : xxx-xxx1234"
-                    android:textSize="18sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/plantDateTextView" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </FrameLayout>

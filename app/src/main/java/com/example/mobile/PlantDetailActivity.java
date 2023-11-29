@@ -57,7 +57,6 @@ public class PlantDetailActivity extends AppCompatActivity {
         plantImageView = findViewById(R.id.plantImageView);
         plantNameTextView = findViewById(R.id.plantNameTextView);
         plantDateTextView = findViewById(R.id.plantDateTextView);
-        plantNumberTextView = findViewById(R.id.plantNumberTextView);
         temperatureTextView = findViewById(R.id.temperatureTextView);
         humidityTextView = findViewById(R.id.humidityTextView);
         moistureTextView = findViewById(R.id.moistureTextView);
@@ -67,8 +66,15 @@ public class PlantDetailActivity extends AppCompatActivity {
     }
 
     private void fetchPlantDetails() {
-        //todo 식물 정보 불러오기 로직
+        // Intent로부터 식물 정보를 받아온다고 가정
+        String plantName = getIntent().getStringExtra("plantName");
+        String plantDating = getIntent().getStringExtra("plantDating");
 
+        // UI에 식물 정보 표시
+        plantNameTextView.setText("식물 이름 : " + plantName);
+        plantDateTextView.setText("심은 날짜 : " + plantDating);
+
+        // TODO: 온도, 습도, 땅 습도 등 추가 정보 설정 필요
     }
 
     private void editPlantDetails() {
@@ -76,8 +82,9 @@ public class PlantDetailActivity extends AppCompatActivity {
 
         String url = api_url.UPDATEPLANT.getValue();
         Map<String, String> params = new HashMap<>();
-        params.put("plantId", "식물 ID");
-        params.put("newPlantData", "새로운 식물 데이터");
+        params.put("newPlantName", plantNameTextView.getText().toString());
+        params.put("newPlantDating", plantDateTextView.getText().toString());
+        params.put("newImage", null);
 
         new AsyncTask<Void, Void, String>() {
             @Override

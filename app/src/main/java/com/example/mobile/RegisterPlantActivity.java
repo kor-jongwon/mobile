@@ -23,9 +23,15 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +43,7 @@ public class RegisterPlantActivity extends Activity {
     private Button btnSave;
     private ImageView imageView;
     private boolean isImageSelected = false;
+    private boolean isDuplicateName = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,7 @@ public class RegisterPlantActivity extends Activity {
         editTextPlantName = findViewById(R.id.plant_name);
         textViewDate = findViewById(R.id.plant_date_text_view);
         Button btnSelectDate = findViewById(R.id.date_picker_btn);
+        Button duplicateButton = findViewById(R.id.duplicateButton);
         btnSave = findViewById(R.id.button);
 
         btnSave.setEnabled(false); //버튼 비활성화 상태
@@ -67,6 +75,14 @@ public class RegisterPlantActivity extends Activity {
             }
             @Override
             public void afterTextChanged(Editable s) {}
+        });
+
+        duplicateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String plantName = editTextPlantName.getText().toString();
+                checkPlantNameDuplicate(plantName);
+            }
         });
 
         btnSelectDate.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +152,7 @@ public class RegisterPlantActivity extends Activity {
     private void validateInputs() {
         // 모든 입력 데이터가 유효한지 확인합니다.
         // 그렇지 않으면 비활성화합니다.
-        btnSave.setEnabled(isImageSelected && !TextUtils.isEmpty(editTextPlantName.getText().toString().trim()) && !TextUtils.isEmpty(textViewDate.getText()));
+        btnSave.setEnabled(isImageSelected && isDuplicateName &&!TextUtils.isEmpty(editTextPlantName.getText().toString().trim()) && !TextUtils.isEmpty(textViewDate.getText()));
         // 모든 조건이 충족되면 버튼을 활성화합니다.
     }
 
@@ -218,7 +234,54 @@ public class RegisterPlantActivity extends Activity {
             }
         }
     }
+    //식물 중복 체크
+    private void checkPlantNameDuplicate(final String plantName) {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                PlantDuplicateHttpURLConnection requestHttpURLConnection = new PlantDuplicateHttpURLConnection();
+                try {
+                    // 이곳에 필요한 URL, values, imageData, imageName 값을 설정해야 합니다.
+                    // 예를 들어, 식물 이름 중복 검사에 필요한 정보를 설정합니다.
+                    String url = api_url.PLANTDUPLICATE.getValue(); // 실제 서버 URL로 교체
+                    Map<String, String> values = new HashMap<>();
+                    values.put("plantName", plantName); // plantName은 식물 이름 변수
 
+                    // 이미지 데이터가 필요하지 않은 경우, null 또는 빈 데이터를 전달할 수 있습니다.
+                    byte[] imageData = null; // 혹은 필요한 이미지 데이터
+                    String imageName = ""; // 혹은 필요한 이미지 이름
+
+                    return requestHttpURLConnection.checkDuplicate(url, values);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (result != null) {
+                    try {
+                        JSONObject jsonResponse = new JSONObject(result);
+                        String message = jsonResponse.optString("message", "");
+
+                        // API 응답에 따라 isDuplicateName 상태 설정
+                        if (message.contains("사용 가능한 식물 이름입니다.")) {
+                            isDuplicateName = true;
+                        } else if (message.contains("동일한 이름의 식물이 이미 등록되어 있습니다.")) {
+                            isDuplicateName = false;
+                            Toast.makeText(RegisterPlantActivity.this, "중복된 이름입니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        // JSON 파싱 오류 처리
+                    }
+                } else {
+                    // 응답이 null인 경우, 서버 연결 실패 처리
+                }
+            }
+        }.execute();
+    }
 
 
 }

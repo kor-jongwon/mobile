@@ -1,14 +1,11 @@
 package com.example.mobile;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -16,53 +13,63 @@ import java.util.List;
 public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewHolder> {
 
     private List<Plant> plants;
-    private Context context;
+    private OnItemClickListener listener;
 
-    public PlantsAdapter(Context context, List<Plant> plants) {
-        this.context = context;
+    public void setPlants(List<Plant> newPlants) {
+        this.plants = newPlants;
+        notifyDataSetChanged(); // 데이터가 변경되었음을 알림
+    }
+
+    // 클릭 이벤트를 처리하기 위한 인터페이스
+    public interface OnItemClickListener {
+        void onItemClick(Plant plant);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public PlantsAdapter() {
         this.plants = plants;
     }
 
-    @NonNull
     @Override
-    public PlantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PlantViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.plant_item, parent, false);
         return new PlantViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PlantViewHolder holder, int position) {
+    public void onBindViewHolder(PlantViewHolder holder, int position) {
         Plant plant = plants.get(position);
-        holder.plantNameTextView.setText(plant.getName());
-        holder.plantDateTextView.setText(plant.getDate());
-
-        // glide로 이미지 불러오는 작업인데 아직 못하는중 getDateGlide.with(context).load(plant.getImageUrl()).into(holder.plantImageView);
+        holder.plantName.setText(plant.getPlantName());
+        // 이미지 로딩 로직 추가 (예: Glide 라이브러리 사용)
+        // 예: Glide.with(holder.itemView.getContext()).load(plant.getImageUrl()).into(holder.plantImage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, PlantDetailActivity.class);
-                intent.putExtra("plantId", plant.getPlantId());
-                context.startActivity(intent);
+                if (listener != null) {
+                    listener.onItemClick(plant);
+                }
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return plants.size();
+        return plants != null ? plants.size() : 0;
     }
 
+    // ViewHolder 클래스
     public static class PlantViewHolder extends RecyclerView.ViewHolder {
-        ImageView plantImageView;
-        TextView plantNameTextView;
-        TextView plantDateTextView;
+        public TextView plantName;
+        public ImageView plantImage;
 
-        public PlantViewHolder(@NonNull View itemView) {
+        public PlantViewHolder(View itemView) {
             super(itemView);
-            plantImageView = itemView.findViewById(R.id.plantImageView);
-            plantNameTextView = itemView.findViewById(R.id.plantNameTextView);
-            plantDateTextView = itemView.findViewById(R.id.plantDateTextView);
+            plantName = itemView.findViewById(R.id.plantName);
+            plantImage = itemView.findViewById(R.id.plantImage);
         }
     }
 }

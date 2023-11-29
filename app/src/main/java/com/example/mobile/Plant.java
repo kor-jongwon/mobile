@@ -1,35 +1,39 @@
 package com.example.mobile;
 public class Plant {
     private String plantId;
-    private String name;
-    private String date;
-    private String imageUrl;
+    private String plantName;
+    private String plantDating;
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getPlantDating() {
+        return plantDating;
+    }
 
     public String getPlantId() {
         return plantId;
     }
 
-    public String getName() {
-        return name;
+    public String getPlantName() {
+        return plantName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getDate() {
-        return date;
+    public void setPlantDating(String plantDating) {
+        this.plantDating = plantDating;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setPlantId(String plantId) {
+        this.plantId = plantId;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setPlantName(String plantName) {
+        this.plantName = plantName;
     }
 }

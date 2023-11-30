@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import static com.example.mobile.LoginActivity.id;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,7 +27,7 @@ public class SensorRegisterActivity extends AppCompatActivity {
     public TextView  tv_error_id, tv_error_name;
     public Button btn_duplicated, btn_register;
 
-    public static String id;
+    public static String id, name;
 
     public static boolean idDuplicated;
 
@@ -74,13 +75,21 @@ public class SensorRegisterActivity extends AppCompatActivity {
                 String inputText = s.toString();
                 if (inputText.isEmpty()) {
                     // 입력이 비어 있는 경우
+                    idDuplicated = false;
+                    btn_register.setEnabled(false);
                     tv_error_name.setVisibility(View.VISIBLE);
                     tv_error_name.setTextColor(Color.parseColor("#FF0000"));
                     tv_error_name.setText("센서 이름을 입력해주세요.");
                     editTextName.setBackgroundResource(R.drawable.red_edittext); // 붉은색 배경
                 } else {
+                    btn_register.setEnabled(false);
                     tv_error_name.setVisibility(View.GONE);
                     editTextName.setBackgroundResource(R.drawable.green_edittext); // 흰색 배경
+
+                    if (idDuplicated){
+                        Toast.makeText(getApplicationContext(), "dd", Toast.LENGTH_SHORT).show();
+                        btn_register.setEnabled(true);
+                    }
                 }
                 checkInputs();
             }
@@ -115,6 +124,11 @@ public class SensorRegisterActivity extends AppCompatActivity {
                     btn_duplicated.setEnabled(true);
                     tv_error_id.setVisibility(View.GONE);
                     editTextId.setBackgroundResource(R.drawable.green_edittext);
+
+                    if (idDuplicated){
+                        Toast.makeText(getApplicationContext(), "dd", Toast.LENGTH_SHORT).show();
+                        btn_register.setEnabled(true);
+                    }
                 }
                 checkInputs();
             }
@@ -136,10 +150,25 @@ public class SensorRegisterActivity extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                id = editTextId.getText().toString();
+                name = editTextName.getText().toString();
+                ContentValues params = new ContentValues();
+                params.put("deviceId", id);
+                params.put("name", name);
+
+
+                String url = api_url.ADDSENSOR.getValue();
+
+                addsensor_NetworkTask networkTask = new addsensor_NetworkTask(url, null);
+                networkTask.execute();
+
+
+
                 Intent intent = new Intent(SensorRegisterActivity.this, SensorRegisterList.class);
                 // editTextName에서 센서 이름을 가져와 Intent에 추가
                 String sensorName = editTextName.getText().toString();
-                sensorList.add(sensorName);
+
                 startActivity(intent);
             }
         });
@@ -231,4 +260,61 @@ public class SensorRegisterActivity extends AppCompatActivity {
         }
     }
 
+    public class addsensor_NetworkTask extends AsyncTask<Void, Void, String> {
+
+        private final String url;
+        private final ContentValues values;
+
+        public addsensor_NetworkTask(String url, ContentValues values) {
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result;
+            //에러 발생
+            Sensor_Add_RequestHttpURLConnection sensorRequestHttpURLConnection = new Sensor_Add_RequestHttpURLConnection();
+            result = sensorRequestHttpURLConnection.request(url, values);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s != null) {
+
+                try {
+                    // JSON 문자열을 파싱하여 JSON 객체로 변환
+                    JSONObject jsonObject = new JSONObject(s);
+                    //Todo:
+                    // Json에 값이 equals로 안맞아짐...해결필요
+
+                    // JSON 객체에서 "message" 키의 값을 가져오기
+                    String message = jsonObject.optString("message", "");
+
+                    if (message.equals("deviceId, name은 필수 값입니다.")) {
+                        tv_error_id.setVisibility(View.VISIBLE);
+                        tv_error_id.setText("센서 아이디를 다시 입력해주세요.");
+                        editTextId.setBackgroundResource(R.drawable.red_edittext);
+
+                    }
+                    if (message.equals("센서가 성공적으로 등록되었습니다.")) {
+                        Intent intent = new Intent(SensorRegisterActivity.this, SensorRegisterList.class);
+                        startActivity(intent);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    // JSON 파싱 오류 처리
+                }
+            } else {
+                tv_error_id.setVisibility(View.VISIBLE);
+                tv_error_id.setText("네트워크를 다시 확인해주세요.");
+                editTextId.setBackgroundResource(R.drawable.red_edittext);
+            }
+        }
+    }
 }

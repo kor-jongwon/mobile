@@ -5,7 +5,9 @@ public enum api_url {
     SIGNUP("http://3.36.113.184:30001/signup"),
     IDDUPLICATE("http://3.36.113.184:30001/duplicated"),
     FINDID("http://3.36.113.184:30001/findid"),
-    SENSORDUPLICATE("http://3.36.113.184:30001/duplicated_sensor_id"),
+    SENSORDUPLICATE("http://100.100.113.176:30001/duplicated_sensor_id"),
+
+    ADDSENSOR("http://100.100.113.176:30001/addSensor"),
 
 
     PLANTDUPLICATE("http://3.36.113.184:30001/duplicatePlantName"),

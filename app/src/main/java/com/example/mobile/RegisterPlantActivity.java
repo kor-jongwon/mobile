@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,7 +43,7 @@ public class RegisterPlantActivity extends Activity {
     private Button btnSave;
     private ImageView imageView;
     private boolean isImageSelected = false;
-    private boolean isNameAvailable = false;
+    private boolean isDuplicateName = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class RegisterPlantActivity extends Activity {
         Button duplicateButton = findViewById(R.id.duplicateButton);
         btnSave = findViewById(R.id.button);
 
-        btnSave.setEnabled(false); // 초기 버튼 비활성화 상태
+        btnSave.setEnabled(false); //버튼 비활성화 상태
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +71,7 @@ public class RegisterPlantActivity extends Activity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateInputs();
+                validateInputs(); // 텍스트가 변경될 때 확인
             }
             @Override
             public void afterTextChanged(Editable s) {}
@@ -93,10 +92,11 @@ public class RegisterPlantActivity extends Activity {
             }
         });
 
+        // "완료" 버튼 클릭 리스너를 설정합니다.
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                savePlantData();
+                savePlantData(); // 사용자 데이터 저장 메소드를 호출합니다.
             }
         });
     }
@@ -113,23 +113,30 @@ public class RegisterPlantActivity extends Activity {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                         textViewDate.setText(selectedDate);
-                        validateInputs();
+                        validateInputs(); // 날짜가 설정된 후 검증
                     }
                 }, year, month, day);
         datePickerDialog.show();
     }
 
     public void openGallery() {
+        // Toast 메시지 추가
         Toast.makeText(this, "이미지를 선택하세요.", Toast.LENGTH_SHORT).show();
+
+        // 갤러리를 여는 인텐트 생성
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        // 결과를 반환받기 위해 액티비티 시작
         startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
+
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 imageView.setImageBitmap(bitmap);
@@ -137,34 +144,37 @@ public class RegisterPlantActivity extends Activity {
                 validateInputs();
             } catch (IOException e) {
                 e.printStackTrace();
-                Toast.makeText(this, "이미지 로드 실패", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Failed to load image", Toast.LENGTH_LONG).show();
             }
         }
     }
 
     private void validateInputs() {
-        btnSave.setEnabled(isImageSelected && isNameAvailable && !TextUtils.isEmpty(editTextPlantName.getText().toString().trim()) && !TextUtils.isEmpty(textViewDate.getText()));
+        // 모든 입력 데이터가 유효한지 확인합니다.
+        // 그렇지 않으면 비활성화합니다.
+        btnSave.setEnabled(isImageSelected && isDuplicateName &&!TextUtils.isEmpty(editTextPlantName.getText().toString().trim()) && !TextUtils.isEmpty(textViewDate.getText()));
+        // 모든 조건이 충족되면 버튼을 활성화합니다.
     }
 
     private void savePlantData() {
         String plantName = editTextPlantName.getText().toString();
         String plantDate = textViewDate.getText().toString();
 
-        // imageView에서 Bitmap 가져오기
-        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        // Map으로 데이터를 저장합니다.
+        Map<String, String> values = new HashMap<>();
+        values.put("plantName", plantName);
+        values.put("plantingDate", plantDate);
 
-        // Bitmap을 byte 배열로 변환
+        // 이미지 데이터 준비
+        imageView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = imageView.getDrawingCache();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
         byte[] imageData = bos.toByteArray();
+        imageView.setDrawingCacheEnabled(false);
 
-        String url = api_url.REGISTPLANT.getValue();
-
-        Map<String, String> data = new HashMap<>();
-        data.put("plantName", plantName);
-        data.put("plantingDate", plantDate);
-
-        NetworkTask networkTask = new NetworkTask(url, data, imageData, "plant_image.jpg");
+        String url = api_url.REGISTPLANT.getValue(); // 서버 URL을 설정해야 합니다.
+        NetworkTask networkTask = new NetworkTask(url, values, imageData, "plant_image.jpg");
         networkTask.execute();
     }
 
@@ -172,22 +182,24 @@ public class RegisterPlantActivity extends Activity {
     public class NetworkTask extends AsyncTask<Void, Void, String> {
 
         private String url;
-        private Map<String, String> params;
+        private Map<String, String> values;
         private byte[] imageData;
         private String imageName;
 
-        public NetworkTask(String url, Map<String, String> params, byte[] imageData, String imageName) {
+        // 생성자에서 이미지 데이터와 파일 이름을 추가로 받습니다.
+        public NetworkTask(String url, Map<String, String> values, byte[] imageData, String imageName) {
             this.url = url;
-            this.params = params;
+            this.values = values;
             this.imageData = imageData;
             this.imageName = imageName;
         }
 
         @Override
-        protected String doInBackground(Void... voids) {
+        protected String doInBackground(Void... params) {
             PlantRegisterRequestHttpURLConnection requestHttpURLConnection = new PlantRegisterRequestHttpURLConnection();
             try {
-                return requestHttpURLConnection.request(url, params, imageData, imageName);
+                // 수정된 request 메서드를 호출합니다. 이 메서드는 이미지와 텍스트 데이터를 모두 서버로 전송합니다.
+                return requestHttpURLConnection.request(url, values, imageData, imageName);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -195,18 +207,22 @@ public class RegisterPlantActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (result != null && !result.isEmpty()) {
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            // 결과 처리
+            if (s != null) {
                 try {
-                    JSONObject jsonObject = new JSONObject(result);
+                    JSONObject jsonObject = new JSONObject(s);
                     String message = jsonObject.optString("message", "");
 
                     if (message.contains("식물 정보가 성공적으로 추가되었습니다.")) {
+                        // 다음 액티비티로 이동
                         Intent intent = new Intent(RegisterPlantActivity.this, Plant_RegisterList.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } else {
+                        // 오류 메시지 처리
                         Toast.makeText(getApplicationContext(), "등록 실패: " + message, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {

@@ -36,11 +36,19 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class RegisterPlantActivity extends Activity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private EditText editTextPlantName;
     private TextView textViewDate;
-    private Button btnSave;
+    private Button btnSave, duplicateButton, btnSelectDate;
     private ImageView imageView;
     private boolean isImageSelected = false;
     private boolean isDuplicateName = false;
@@ -53,8 +61,8 @@ public class RegisterPlantActivity extends Activity {
         imageView = findViewById(R.id.imageView);
         editTextPlantName = findViewById(R.id.plant_name);
         textViewDate = findViewById(R.id.plant_date_text_view);
-        Button btnSelectDate = findViewById(R.id.date_picker_btn);
-        Button duplicateButton = findViewById(R.id.duplicateButton);
+        btnSelectDate = findViewById(R.id.date_picker_btn);
+        duplicateButton = findViewById(R.id.duplicateButton);
         btnSave = findViewById(R.id.button);
 
         btnSave.setEnabled(false); //버튼 비활성화 상태
@@ -152,7 +160,8 @@ public class RegisterPlantActivity extends Activity {
     private void validateInputs() {
         // 모든 입력 데이터가 유효한지 확인합니다.
         // 그렇지 않으면 비활성화합니다.
-        btnSave.setEnabled(isImageSelected && isDuplicateName &&!TextUtils.isEmpty(editTextPlantName.getText().toString().trim()) && !TextUtils.isEmpty(textViewDate.getText()));
+        //todo is ImageSelected 개선
+        btnSave.setEnabled(isDuplicateName &&!TextUtils.isEmpty(editTextPlantName.getText().toString().trim()) && !TextUtils.isEmpty(textViewDate.getText()));
         // 모든 조건이 충족되면 버튼을 활성화합니다.
     }
 
@@ -236,51 +245,60 @@ public class RegisterPlantActivity extends Activity {
     }
     //식물 중복 체크
     private void checkPlantNameDuplicate(final String plantName) {
-        new AsyncTask<Void, Void, String>() {
+        OkHttpClient client = new OkHttpClient();
+
+        // 식물 이름 중복 검사를 위한 서버 URL
+        String url = api_url.PLANTDUPLICATE.getValue();
+
+        // POST 요청에 필요한 FormBody를 생성
+        RequestBody formBody = new FormBody.Builder()
+                .add("plantName", plantName)
+                .build();
+
+        // 요청을 생성
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+
+        // 요청을 비동기적으로 실행
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            protected String doInBackground(Void... params) {
-                PlantDuplicateHttpURLConnection requestHttpURLConnection = new PlantDuplicateHttpURLConnection();
-                try {
-                    // 이곳에 필요한 URL, values, imageData, imageName 값을 설정해야 합니다.
-                    // 예를 들어, 식물 이름 중복 검사에 필요한 정보를 설정합니다.
-                    String url = api_url.PLANTDUPLICATE.getValue(); // 실제 서버 URL로 교체
-                    Map<String, String> values = new HashMap<>();
-                    values.put("plantName", plantName); // plantName은 식물 이름 변수
-
-                    // 이미지 데이터가 필요하지 않은 경우, null 또는 빈 데이터를 전달할 수 있습니다.
-                    byte[] imageData = null; // 혹은 필요한 이미지 데이터
-                    String imageName = ""; // 혹은 필요한 이미지 이름
-
-                    return requestHttpURLConnection.checkDuplicate(url, values);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return null;
-                }
+            public void onFailure(Call call, IOException e) {
+                // 네트워크 오류 처리
+                e.printStackTrace();
             }
 
             @Override
-            protected void onPostExecute(String result) {
-                if (result != null) {
-                    try {
-                        JSONObject jsonResponse = new JSONObject(result);
-                        String message = jsonResponse.optString("message", "");
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
 
-                        // API 응답에 따라 isDuplicateName 상태 설정
-                        if (message.contains("사용 가능한 식물 이름입니다.")) {
-                            isDuplicateName = true;
-                        } else if (message.contains("동일한 이름의 식물이 이미 등록되어 있습니다.")) {
-                            isDuplicateName = false;
-                            Toast.makeText(RegisterPlantActivity.this, "중복된 이름입니다.", Toast.LENGTH_SHORT).show();
+                final String result = response.body().string();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(result);
+                            String message = jsonResponse.optString("message", "");
+
+                            // API 응답에 따라 isDuplicateName 상태 설정
+                            if (message.contains("사용 가능한 식물 이름입니다.")) {
+                                isDuplicateName = true;
+                            } else if (message.contains("동일한 이름의 식물이 이미 등록되어 있습니다.")) {
+                                isDuplicateName = false;
+                                Toast.makeText(RegisterPlantActivity.this, "중복된 이름입니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            // JSON 파싱 오류 처리
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        // JSON 파싱 오류 처리
                     }
-                } else {
-                    // 응답이 null인 경우, 서버 연결 실패 처리
-                }
+                });
             }
-        }.execute();
+        });
     }
 
 

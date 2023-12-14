@@ -10,12 +10,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class PlantDetailActivity extends AppCompatActivity {
 
@@ -78,52 +86,78 @@ public class PlantDetailActivity extends AppCompatActivity {
     }
 
     private void editPlantDetails() {
-        UpdatePlant_RequestHttpURLConnection httpURLConnection = new UpdatePlant_RequestHttpURLConnection();
-
+        OkHttpClient client = new OkHttpClient();
         String url = api_url.UPDATEPLANT.getValue();
-        Map<String, String> params = new HashMap<>();
-        params.put("newPlantName", plantNameTextView.getText().toString());
-        params.put("newPlantDating", plantDateTextView.getText().toString());
-        params.put("newImage", null);
 
-        new AsyncTask<Void, Void, String>() {
+        FormBody.Builder formBuilder = new FormBody.Builder()
+                .add("newPlantName", plantNameTextView.getText().toString())
+                .add("newPlantDating", plantDateTextView.getText().toString())
+                .add("newImage", ""); // 혹은 null 대신 실제 이미지 데이터
+
+        Request request = new Request.Builder()
+                .url(url)
+                .put(formBuilder.build())
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            protected String doInBackground(Void... voids) {
-                return httpURLConnection.requestPost(url, params);
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                // 에러 처리
             }
 
             @Override
-            protected void onPostExecute(String result) {
-                if (result != null) {
-                    Toast.makeText(PlantDetailActivity.this, "식물 정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(PlantDetailActivity.this, "수정 실패", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
                 }
+
+                runOnUiThread(() -> {
+                    try {
+                        String result = response.body().string();
+                        // 결과에 따라 UI 업데이트
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
-        }.execute();
+        });
     }
 
     private void deletePlantDetails() {
-        DeletePlant_RequestHttpURLConnection httpURLConnection = new DeletePlant_RequestHttpURLConnection();
-
+        OkHttpClient client = new OkHttpClient();
         String url = api_url.DELETEPLANT.getValue();
-        Map<String, String> params = new HashMap<>();
-        params.put("plantId", "식물 ID");
 
-        new AsyncTask<Void, Void, String>() {
+        FormBody.Builder formBuilder = new FormBody.Builder()
+                .add("plantId", "식물 ID");
+
+        Request request = new Request.Builder()
+                .url(url)
+                .delete(formBuilder.build())
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            protected String doInBackground(Void... voids) {
-                return httpURLConnection.requestDelete(url, params);
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                // 에러 처리
             }
 
             @Override
-            protected void onPostExecute(String result) {
-                if (result != null) {
-                    Toast.makeText(PlantDetailActivity.this, "식물이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(PlantDetailActivity.this, "삭제 실패", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
                 }
+
+                runOnUiThread(() -> {
+                    try {
+                        String result = response.body().string();
+                        // 결과에 따라 UI 업데이트
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
-        }.execute();
+        });
     }
 }
